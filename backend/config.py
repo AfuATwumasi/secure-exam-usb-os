@@ -1,6 +1,6 @@
-import os
+from sqlalchemy import create_engine
 
 
-class Config:
-    SECRET_KEY = os.getenv("SECRET_KEY", "change-me")
-    DATABASE_URI = os.getenv("DATABASE_URI", "sqlite:///exam.db")
+DATABASE_URL = "sqlite:///exam.db"
+
+engine = create_engine(DATABASE_URL)

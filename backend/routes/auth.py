@@ -1,15 +1,9 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint
 
 
-auth_bp = Blueprint("auth", __name__)
+auth_bp = Blueprint('auth', __name__)
 
 
-@auth_bp.post("/login")
+@auth_bp.route('/login', methods=['POST'])
 def login():
-    payload = request.get_json(silent=True) or {}
-    return jsonify(
-        {
-            "message": "login endpoint scaffolded",
-            "email": payload.get("email", ""),
-        }
-    )
+    return {"message": "Login endpoint working"}

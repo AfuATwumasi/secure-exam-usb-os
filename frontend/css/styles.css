@@ -1,0 +1,105 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #21b749, #f3e8ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.icon img {
+  width: 120px;
+  height: 90px;
+  object-fit: contain;
+}
+
+h2 {
+  margin-bottom: 5px;
+}
+
+p {
+  color: gray;
+  margin-bottom: 20px;
+}
+
+/* Role buttons */
+.roles {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.role {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+  border-radius: 10px;
+  margin: 0 5px;
+}
+
+.role.active {
+  background: #21b749;
+  color: white;
+}
+
+/* Inputs */
+form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+/* Submit button */
+#submitBtn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(to right, #21b749, #21b749);
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Demo section */
+.demo {
+  margin-top: 20px;
+}
+
+.demo p {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.demo-btn {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+}

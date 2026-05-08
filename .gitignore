@@ -1,6 +1,9 @@
 .venv/
 backend/.venv/
+backend/.venv.bak/
+backend/test_*.py
 __pycache__/
 *.pyc
 exam.db
 backend/uploads/
+uploads/

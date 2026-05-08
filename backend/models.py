@@ -16,3 +16,10 @@ questions = Table(
     Column("id", Integer, primary_key=True),
     Column("question", String)
 )
+
+students = Table(
+    "students", metadata,
+    Column("id", Integer, primary_key=True),
+    Column("username", String),
+    Column("email", String)
+)

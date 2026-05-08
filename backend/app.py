@@ -5,6 +5,7 @@ from config import engine
 from models import metadata
 from routes.auth import auth_bp
 from routes.exam import exam_bp
+from routes.imports import import_bp
 
 
 metadata.create_all(engine)
@@ -14,6 +15,7 @@ CORS(app)
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(exam_bp)
+app.register_blueprint(import_bp)
 
 
 @app.route("/")

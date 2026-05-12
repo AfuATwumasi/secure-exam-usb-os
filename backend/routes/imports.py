@@ -4,11 +4,12 @@ from flask import Blueprint, request
 from sqlalchemy import insert
 
 from config import engine
-from models import metadata, students
+from models import students
 
 import_bp = Blueprint('import_bp', __name__)
 
-UPLOAD_FOLDER = 'uploads'
+BACKEND_DIR = os.path.dirname(os.path.dirname(__file__))
+UPLOAD_FOLDER = os.path.join(BACKEND_DIR, 'uploads')
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 

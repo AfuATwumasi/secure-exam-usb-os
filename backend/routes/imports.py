@@ -1,17 +1,18 @@
 import os
+from pathlib import Path
 import pandas as pd
 from flask import Blueprint, request
 from sqlalchemy import insert
 
-from config import engine
-from models import students
+from backend.config import engine
+from backend.models import students
 
 import_bp = Blueprint('import_bp', __name__)
 
-BACKEND_DIR = os.path.dirname(os.path.dirname(__file__))
-UPLOAD_FOLDER = os.path.join(BACKEND_DIR, 'uploads')
+BACKEND_DIR = Path(__file__).resolve().parent.parent
+UPLOAD_FOLDER = BACKEND_DIR / 'uploads'
 
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
 
 @import_bp.route('/import-students', methods=['POST'])
@@ -24,10 +25,10 @@ def import_students():
     if not file.filename:
         return {"error": "No file selected"}, 400
 
-    filepath = os.path.join(UPLOAD_FOLDER, file.filename)
-    file.save(filepath)
+    filepath = UPLOAD_FOLDER / file.filename
+    file.save(str(filepath))
 
-    df = pd.read_csv(filepath)
+    df = pd.read_csv(str(filepath))
 
     if not {'username', 'email'}.issubset(df.columns):
         msg = "CSV must contain username and email columns"

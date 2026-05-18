@@ -1,13 +1,15 @@
+
 from flask import Flask
 from flask_cors import CORS
 
-from config import engine
-from models import metadata
-from routes.auth import auth_bp
-from routes.exam import exam_bp
-from routes.imports import import_bp
+from backend.config import engine
+from backend.models import metadata
+from backend.routes.auth import auth_bp
+from backend.routes.exam import exam_bp
+from backend.routes.imports import import_bp
 
 
+# Ensure DB tables exist
 metadata.create_all(engine)
 
 app = Flask(__name__)

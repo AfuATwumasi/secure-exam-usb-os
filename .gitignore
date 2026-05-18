@@ -4,6 +4,5 @@ backend/.venv.bak/
 backend/test_*.py
 __pycache__/
 *.pyc
-exam.db
+backend/exam.db
 backend/uploads/
-uploads/

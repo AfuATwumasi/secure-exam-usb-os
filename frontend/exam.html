@@ -1,0 +1,122 @@
+<!-- exam.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Online Exam</title>
+
+  <link rel="stylesheet" href="css/exam.css">
+</head>
+
+<body>
+
+  <!-- TOP -->
+  <div class="top-container">
+
+    <div>
+      <h1>Mathematics 101</h1>
+      <p>
+        Question
+        <span id="current-question">1</span>
+        of
+        <span id="total-questions">10</span>
+      </p>
+    </div>
+
+    <div class="top-right">
+
+      <div class="timer">
+        ⏰ <span id="timer">30:00</span>
+      </div>
+
+      <div class="answered-box">
+        <span id="answered-count">0</span>/10 Answered
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="progress" id="progress"></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-layout">
+
+    <!-- QUESTION AREA -->
+    <div class="question-card">
+
+      <div class="question-header">
+
+        <h2 id="question-title">
+          Question 1
+        </h2>
+
+        <button class="flag-btn" id="flagBtn">
+          ⚑ Flag
+        </button>
+
+      </div>
+
+      <p id="question-text"></p>
+
+      <!-- OPTIONS -->
+      <div class="options" id="options-container"></div>
+
+      <!-- NAVIGATION -->
+      <div class="navigation">
+
+        <button class="prev-btn" id="prevBtn">
+          ← Previous
+        </button>
+
+        <button class="next-btn" id="nextBtn">
+          Next →
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <h3>Questions</h3>
+
+      <div class="question-grid" id="question-grid"></div>
+
+      <!-- LEGEND -->
+      <div class="legend">
+
+        <div>
+          <span class="green"></span>
+          Answered
+        </div>
+
+        <div>
+          <span class="yellow"></span>
+          Flagged
+        </div>
+
+        <div>
+          <span class="gray"></span>
+          Not Answered
+        </div>
+
+      </div>
+
+      <button class="submit-btn" onclick="submitExam()">
+        Submit Exam
+      </button>
+
+    </div>
+
+  </div>
+
+  <script src="js/exam.js"></script>
+
+</body>
+</html>

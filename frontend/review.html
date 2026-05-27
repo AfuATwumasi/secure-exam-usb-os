@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Review Answers</title>
+
+  <link rel="stylesheet" href="css/review.css">
+
+</head>
+
+<body>
+
+  <div class="review-container">
+
+    <h1>Review Your Answers</h1>
+
+    <div id="review-list"></div>
+
+    <div class="summary">
+
+      <p>
+        Answered:
+        <span id="answered"></span>
+      </p>
+
+      <p>
+        Unanswered:
+        <span id="unanswered"></span>
+      </p>
+
+    </div>
+
+    <div class="buttons">
+
+      <button onclick="goBack()">
+        Back to Exam
+      </button>
+
+      <button class="submit-btn" onclick="finalSubmit()">
+        Final Submit
+      </button>
+
+    </div>
+
+  </div>
+
+  <script src="js/review.js"></script>
+
+</body>
+</html>

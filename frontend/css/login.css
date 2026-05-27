@@ -37,7 +37,7 @@ h2 {
 }
 
 p {
-  color: gray;
+  color: rgb(0, 0, 0);
   margin-bottom: 20px;
 }
 
@@ -75,7 +75,7 @@ form input {
 /* Submit button */
 #submitBtn {
   width: 100%;
-  padding: 12px;
+  padding: 15px;
   border: none;
   border-radius: 10px;
   background: linear-gradient(to right, #21b749, #21b749);
@@ -103,3 +103,4 @@ form input {
   background: white;
   cursor: pointer;
 }
+

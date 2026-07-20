@@ -6,3 +6,22 @@ __pycache__/
 *.pyc
 backend/exam.db
 backend/uploads/
+# OS build artifacts
+*.iso
+*.img
+*.squashfs
+*.vdi
+*.vbox
+
+# Cubic extracted filesystem and temporary build data
+KNUST-Exam-OS/
+custom-root/
+iso/custom-root/
+OS/build/output/
+OS/build/work/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*~

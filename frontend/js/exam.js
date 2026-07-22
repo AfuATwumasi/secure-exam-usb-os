@@ -420,6 +420,16 @@ async function submitExam() {
 
 
 // =====================================
+// SET EXAM TITLE FROM LOCAL STORAGE
+// =====================================
+
+const examTitleEl = document.getElementById("exam-title");
+const storedTitle = localStorage.getItem("examTitle");
+if (examTitleEl && storedTitle) {
+  examTitleEl.textContent = storedTitle;
+}
+
+// =====================================
 // INITIAL LOAD
 // =====================================
 

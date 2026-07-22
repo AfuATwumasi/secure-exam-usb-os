@@ -7,6 +7,7 @@ from backend.models import metadata
 from backend.routes.auth import auth_bp
 from backend.routes.exam import exam_bp
 from backend.routes.imports import import_bp
+from backend.routes.config_routes import config_bp
 
 
 # Ensure DB tables exist
@@ -18,6 +19,7 @@ CORS(app)
 app.register_blueprint(auth_bp)
 app.register_blueprint(exam_bp)
 app.register_blueprint(import_bp)
+app.register_blueprint(config_bp)
 
 
 @app.route("/")

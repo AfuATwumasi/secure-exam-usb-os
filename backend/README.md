@@ -28,7 +28,8 @@ Frontend (Admin Dashboard)
 |-------------|------|
 | **You (William)** | Backend — config generation, API, ISO build orchestration |
 | **Team Leader** | OS template (Xubuntu ISO), startup scripts, browser launcher |
-| **Other Teammate** | Frontend admin dashboard, database schema |
+| **Database Teammate** | Database schema design, exam profiles, security settings, ISO build records |
+| **Frontend (to be assigned)** | Admin dashboard UI |
 
 ## Files Added / Modified
 

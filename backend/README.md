@@ -10,7 +10,7 @@ This backend serves as the configuration management and ISO generation system fo
 Frontend (Admin Dashboard)
         │
         ▼
-   Backend API  ←── You are here
+   Backend API  ←──  thats me
         │
         ├──► Config Generator  →  system.json
         │
@@ -26,9 +26,9 @@ Frontend (Admin Dashboard)
 
 | Team Member | Role |
 |-------------|------|
-| **You (William)** | Backend — config generation, API, ISO build orchestration |
-| **Team Leader** | OS template (Xubuntu ISO), startup scripts, browser launcher **+** Frontend admin dashboard |
-| **Database Teammate** | Database schema design, exam profiles, security settings, ISO build records |
+| **me (William)** | Backend — config generation, API, ISO build orchestration |
+| **Team Leader(Afua)** | OS template (Xubuntu ISO), startup scripts, browser launcher **+** Frontend admin dashboard |
+| **Database Teammate(Wendy)** | Database schema design, exam profiles, security settings, ISO build records |
 
 
 ## Files Added / Modified

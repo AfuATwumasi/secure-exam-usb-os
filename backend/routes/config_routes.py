@@ -11,9 +11,7 @@ from sqlalchemy import select
 from backend.config import engine
 from backend.models import exam_configs, iso_builds
 from backend.config_generator import (
-    generate_config,
-    profile_strict,
-    profile_moderate,
+    generate_all_configs,
     config_to_json,
     generate_config_id,
     ConfigValidationError,
@@ -66,37 +64,24 @@ def generate_exam_config():
         return jsonify({"error": "exam_url and exam_name are required"}), 400
 
     try:
-        if data.get("profile") == "strict":
-            config = profile_strict(
-                exam_url=exam_url,
-                exam_name=exam_name,
-                institution=data.get("institution", "Kwame Nkrumah University of Science and Technology"),
-                trusted_ssids=data.get("trusted_ssids"),
-            )
-        elif data.get("profile") == "moderate":
-            config = profile_moderate(
-                exam_url=exam_url,
-                exam_name=exam_name,
-                institution=data.get("institution", "Kwame Nkrumah University of Science and Technology"),
-            )
-        else:
-            config = generate_config(
-                exam_url=exam_url,
-                exam_name=exam_name,
-                exam_duration=data.get("exam_duration", 120),
-                course_code=data.get("course_code", ""),
-                institution=data.get("institution", "Kwame Nkrumah University of Science and Technology"),
-                allowed_domains=data.get("allowed_domains"),
-                trusted_ssids=data.get("trusted_ssids"),
-                kiosk_mode=data.get("kiosk_mode", True),
-                disable_terminal=data.get("disable_terminal", True),
-                disable_usb=data.get("disable_usb", False),
-                disable_printing=data.get("disable_printing", True),
-                disable_screenshots=data.get("disable_screenshots", True),
-                allow_ethernet=data.get("allow_ethernet", True),
-                profile=data.get("profile", "strict"),
-                exam_server=data.get("exam_server", ""),
-            )
+        result = generate_all_configs(
+            exam_url=exam_url,
+            exam_name=exam_name,
+            exam_duration=data.get("exam_duration", 120),
+            course_code=data.get("course_code", ""),
+            institution=data.get("institution",
+                "Kwame Nkrumah University of Science and Technology"),
+            allowed_domains=data.get("allowed_domains"),
+            trusted_ssids=data.get("trusted_ssids"),
+            kiosk_mode=data.get("kiosk_mode", True),
+            disable_terminal=data.get("disable_terminal", True),
+            disable_usb=data.get("disable_usb", False),
+            disable_printing=data.get("disable_printing", True),
+            disable_screenshots=data.get("disable_screenshots", True),
+            allow_ethernet=data.get("allow_ethernet", True),
+            profile=data.get("profile", "strict"),
+            exam_server=data.get("exam_server", ""),
+        )
     except ConfigValidationError as e:
         return jsonify({"error": str(e)}), 400
     except Exception as e:
@@ -104,8 +89,10 @@ def generate_exam_config():
 
     return jsonify({
         "message": "Configuration generated successfully",
-        "config": config,
-        "config_json": config_to_json(config),
+        "config": result["system_config"],
+        "config_json": result["system_json"],
+        "security_config": result["security_config"],
+        "security_json": result["security_json"],
     }), 200
 
 

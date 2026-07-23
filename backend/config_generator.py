@@ -123,6 +123,32 @@ DEFAULT_CONFIG: dict[str, Any] = {
     },
 }
 
+# ----- Security-only defaults (for separate security.json) -----
+
+DEFAULT_SECURITY_CONFIG: dict[str, Any] = {
+    "desktop": {
+        "disable_desktop_icons": True,
+        "disable_right_click": True,
+        "hide_panel": True,
+    },
+    "keyboard": {
+        "disable_ctrl_alt_t": True,
+        "disable_run_dialog": True,
+        "disable_super_key": True,
+        "disable_alt_tab": True,
+        "disable_alt_f4": True,
+        "disable_print_screen": True,
+        "disable_workspace_switching": True,
+    },
+    "session": {
+        "disable_screen_lock": True,
+        "disable_suspend": True,
+    },
+    "browser": {
+        "disable_clipboard": False,
+    },
+}
+
 
 # ----- Validation -----
 
@@ -427,6 +453,71 @@ def profile_moderate(
         disable_screenshots=True,
         profile="moderate",
     )
+
+
+# ----- generate_security_config (for separate /etc/exam-kiosk/security.json) -----
+
+def generate_security_config(
+    system_config: dict,
+) -> dict[str, Any]:
+    """
+    Extract the security section from a system.json config and produce
+    a separate security.json matching what lockdown.sh expects.
+
+    This is needed because Afua refactored lockdown.sh to read from
+    /etc/exam-kiosk/security.json instead of system.json.
+    """
+    security = system_config.get("security", {})
+
+    result = DEFAULT_SECURITY_CONFIG.copy()
+
+    # Map system.json security fields -> security.json fields
+    desktop = security.get("desktop", {})
+    result["desktop"]["disable_desktop_icons"] = desktop.get("disable_desktop_icons", True)
+    result["desktop"]["disable_right_click"] = desktop.get("disable_right_click", True)
+    result["desktop"]["hide_panel"] = desktop.get("hide_panel", True)
+
+    keyboard = security.get("keyboard", {})
+    result["keyboard"]["disable_ctrl_alt_t"] = keyboard.get("disable_ctrl_alt_t", True)
+    result["keyboard"]["disable_run_dialog"] = keyboard.get("disable_run_dialog", True)
+    result["keyboard"]["disable_super_key"] = keyboard.get("disable_super_key", True)
+    result["keyboard"]["disable_alt_tab"] = keyboard.get("disable_alt_tab", True)
+    result["keyboard"]["disable_workspace_switching"] = keyboard.get("disable_workspace_switching", True)
+
+    session = security.get("session", {})
+    result["session"]["disable_screen_lock"] = session.get("disable_screen_lock", True)
+    result["session"]["disable_suspend"] = session.get("disable_suspend", True)
+
+    browser_sec = security.get("browser", {})
+    result["browser"]["disable_clipboard"] = browser_sec.get("disable_clipboard", False)
+
+    return result
+
+
+def generate_all_configs(
+    exam_url: str,
+    exam_name: str,
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """
+    Generate both system.json and security.json configs.
+
+    Returns:
+        dict with:
+            - system_config: the full system.json dict
+            - security_config: the separate security.json dict
+            - system_json: pretty-printed system.json string
+            - security_json: pretty-printed security.json string
+    """
+    system_config = generate_config(exam_url=exam_url, exam_name=exam_name, **kwargs)
+    security_config = generate_security_config(system_config)
+
+    return {
+        "system_config": system_config,
+        "security_config": security_config,
+        "system_json": config_to_json(system_config),
+        "security_json": config_to_json(security_config),
+    }
 
 
 # ----- Generate unique config ID -----

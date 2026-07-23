@@ -76,52 +76,122 @@ if [ "$(read_setting '.desktop.disable_right_click')" = "true" ]; then
     log_message "Desktop right-click menus disabled."
 fi
 
+if [ "$(read_setting '.desktop.hide_panel')" = "true" ]; then
+    # Hide both XFCE panels
+    set_xfconf "xfce4-panel" "/panels/panel-1/autohide-behavior" "uint" "2"
+    set_xfconf "xfce4-panel" "/panels/panel-2/autohide-behavior" "uint" "2"
+
+    set_xfconf "xfce4-panel" "/panels/panel-1/length" "uint" "0"
+    set_xfconf "xfce4-panel" "/panels/panel-2/length" "uint" "0"
+
+    xfce4-panel -r >/dev/null 2>&1 || true
+
+    log_message "XFCE panels hidden."
+fi
 # --------------------------------------------------
 # Keyboard shortcut restrictions
 # --------------------------------------------------
 
 if [ "$(read_setting '.keyboard.disable_ctrl_alt_t')" = "true" ]; then
-    remove_xfconf_property \
-        "xfce4-keyboard-shortcuts" \
-        "/commands/custom/<Primary><Alt>t"
-
-    remove_xfconf_property \
-        "xfce4-keyboard-shortcuts" \
+    for property in \
+        "/commands/custom/<Primary><Alt>t" \
         "/commands/custom/<Control><Alt>t"
+    do
+        set_xfconf \
+            "xfce4-keyboard-shortcuts" \
+            "$property" \
+            "string" \
+            "/bin/true"
+    done
 
-    log_message "Terminal keyboard shortcut disabled."
+    log_message "Terminal keyboard shortcuts neutralized."
 fi
 
 if [ "$(read_setting '.keyboard.disable_run_dialog')" = "true" ]; then
-    remove_xfconf_property \
+    set_xfconf \
         "xfce4-keyboard-shortcuts" \
-        "/commands/custom/<Alt>F2"
+        "/commands/custom/<Alt>F2" \
+        "string" \
+        "/bin/true"
 
-    log_message "Run-dialog shortcut disabled."
+    log_message "Run-dialog shortcut neutralized."
 fi
 
 if [ "$(read_setting '.keyboard.disable_super_key')" = "true" ]; then
-    remove_xfconf_property \
+    # Remove common XFCE application-menu and Super-key bindings.
+for property in \
+    "/commands/custom/Super_L" \
+    "/commands/custom/Super_R" \
+    "/commands/custom/<Super>r" \
+    "/commands/custom/<Super>e" \
+    "/commands/custom/<Super>d" \
+    "/commands/custom/<Alt>F1"
+do
+    set_xfconf \
         "xfce4-keyboard-shortcuts" \
-        "/commands/custom/Super_L"
+        "$property" \
+        "string" \
+        "/bin/true"
+done
 
-    remove_xfconf_property \
+    # Prevent the Whisker menu from opening from the Super key.
+    set_xfconf \
         "xfce4-keyboard-shortcuts" \
-        "/commands/custom/<Super>r"
+        "/commands/custom/Super_L" \
+        "string" \
+        "/bin/true"
 
-    log_message "Configured Super-key shortcuts removed."
+    set_xfconf \
+        "xfce4-keyboard-shortcuts" \
+        "/commands/custom/Super_R" \
+        "string" \
+        "/bin/true"
+
+    log_message " Super-key shortcuts neutralized."
 fi
 
 if [ "$(read_setting '.keyboard.disable_alt_tab')" = "true" ]; then
-    remove_xfconf_property \
-        "xfce4-keyboard-shortcuts" \
-        "/xfwm4/custom/<Alt>Tab"
+    for property in \
+        "/xfwm4/custom/<Alt>Tab" \
+        "/xfwm4/custom/<Shift><Alt>Tab" \
+        "/xfwm4/custom/<Alt>Escape" \
+        "/xfwm4/custom/<Shift><Alt>Escape"
+    do
+        set_xfconf \
+            "xfce4-keyboard-shortcuts" \
+            "$property" \
+            "string" \
+            "/bin/true"
+    done
 
-    remove_xfconf_property \
-        "xfce4-keyboard-shortcuts" \
-        "/xfwm4/custom/<Shift><Alt>Tab"
+    log_message "Window-switching shortcuts neutralized."
+fi
 
-    log_message "Alt+Tab window-switching shortcuts removed."
+if [ "$(read_setting '.keyboard.disable_alt_f4')" = "true" ]; then
+    set_xfconf \
+        "xfce4-keyboard-shortcuts" \
+        "/xfwm4/custom/<Alt>F4" \
+        "string" \
+        "/bin/true"
+
+    log_message "Alt+F4 shortcut neutralized."
+fi
+
+if [ "$(read_setting '.keyboard.disable_print_screen')" = "true" ]; then
+    for property in \
+        "/commands/custom/Print" \
+        "/commands/custom/<Alt>Print" \
+        "/commands/custom/<Shift>Print" \
+        "/commands/custom/<Primary>Print"
+    do
+        set_xfconf \
+            "xfce4-keyboard-shortcuts" \
+            "$property" \
+            "string" \
+            "/bin/true"
+    done
+
+    log_message "Screenshot shortcuts neutralized."
 fi
 
 if [ "$(read_setting '.keyboard.disable_workspace_switching')" = "true" ]; then
@@ -143,6 +213,15 @@ if [ "$(read_setting '.keyboard.disable_workspace_switching')" = "true" ]; then
 
     log_message "Workspace-switching shortcuts removed."
 fi
+
+# Administrator unlock shortcut.
+set_xfconf \
+    "xfce4-keyboard-shortcuts" \
+    "/commands/custom/<Primary><Alt><Shift>u" \
+    "string" \
+    "/usr/local/bin/exam-kiosk/admin-unlock.sh"
+
+log_message "Administrator unlock shortcut configured."
 
 # --------------------------------------------------
 # Session restrictions
@@ -180,6 +259,35 @@ fi
 xset s off 2>>"$LOG_FILE" || true
 xset s noblank 2>>"$LOG_FILE" || true
 xset -dpms 2>>"$LOG_FILE" || true
+
+if [ "$(read_setting '.browser.disable_clipboard')" = "true" ]; then
+    pkill -f '/usr/local/bin/exam-kiosk/clipboard-lockdown.sh' \
+        >/dev/null 2>&1 || true
+
+    nohup /usr/local/bin/exam-kiosk/clipboard-lockdown.sh \
+        >/dev/null 2>&1 &
+
+    log_message "Clipboard clearing service started."
+fi
+# Start the examination keyboard guard.
+XBINDKEYS_CONFIG="/etc/exam-kiosk/xbindkeysrc"
+
+if command -v xbindkeys >/dev/null 2>&1 && [ -f "$XBINDKEYS_CONFIG" ]; then
+    pkill -x xbindkeys >/dev/null 2>&1 || true
+
+    nohup xbindkeys --file "$XBINDKEYS_CONFIG" \
+        >>"$LOG_FILE" 2>&1 &
+
+    sleep 1
+
+    if pgrep -x xbindkeys >/dev/null 2>&1; then
+        log_message "Keyboard guard started."
+    else
+        log_message "WARNING: Keyboard guard failed to start."
+    fi
+else
+    log_message "WARNING: xbindkeys or its configuration is missing."
+fi
 
 log_message "XFCE lockdown completed."
 

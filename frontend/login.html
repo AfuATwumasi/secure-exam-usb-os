@@ -1,46 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Exam Portal</title>
-  <link rel="stylesheet" href="css/login.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNUST Virtual Classroom</title>
+
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
 
+    <div class="login-card">
 
-  <div class="container">
-    <div class="card">
+        <div class="header">
+            <img src="images/knustlogo.png" alt="KNUST Logo">
+            <h2>KNUST ISO BUILDER</h2>
+        </div>
 
-      <div class="icon">
-  <img src="images/knustlogo.png" alt="Knust logo">
-</div>
+        <form id="loginForm">
 
-  
+            <input
+                type="text"
+                id="username"
+                placeholder="Username"
+                required
+            >
 
-      <h2>Exam Portal</h2>
-    
-      <p>Sign in to your account</p>
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+            >
 
-      <!-- Role Switch -->
-      <div class="roles">
-        <button class="role active" data-role="student">Student</button>
-        <button class="role" data-role="admin">Admin</button>
-      </div>
+            <button type="submit">
+                Log in
+            </button>
 
-      <!-- Form -->
-      <form id="loginForm">
-        <input type="email" id="email" placeholder="Enter your email" required />
-        <input type="password" id="password" placeholder="Enter your password" required />
+        </form>
 
-        <button type="submit" id="submitBtn">Sign In </button>
-      </form>
+        <a href="#" class="forgot-password">
+            Lost password?
+        </a>
 
-    
+        <hr>
 
+        
     </div>
-  </div>
 
-  <script src="js/script.js"></script>
+    <script src="login.js"></script>
+
 </body>
 </html>

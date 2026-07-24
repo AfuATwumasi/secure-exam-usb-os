@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build History</title>
+  <link rel="stylesheet" href="buildhistory.css" />
+</head>
+<body>
+
+<div class="dashboard-container">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <img src="images/knustlogo.png" alt="KNUST Logo" />
+      <div>
+        <h2>KNUST</h2>
+        <p>Secure Exam OS Generator</p>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <a href="dashboard.html"> Dashboard</a>
+      <a href="dashboard.html"> Generate ISO</a>
+      <a href="build-history.html" class="active"> Build History</a>
+  
+
+    </nav>
+
+    <div class="admin-box">
+      <div class="avatar">👤</div>
+      <div>
+        <h4>Admin User</h4>
+        <p>Administrator</p>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+      <div>
+        <h1>Build History</h1>
+        <p>View and manage all ISO builds</p>
+      </div>
+
+      <div class="topbar-right">
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+      </div>
+    </header>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="icon green"></div>
+        <div>
+          <p>Total Builds</p>
+          <h2>58</h2>
+          <span>All time</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="icon green"></div>
+        <div>
+          <p>Successful</p>
+          <h2>48</h2>
+          <span>82.8%</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="icon red"></div>
+        <div>
+          <p>Failed</p>
+          <h2>8</h2>
+          <span>13.8%</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="icon yellow"></div>
+        <div>
+          <p>In Progress</p>
+          <h2>2</h2>
+          <span>3.4%</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="icon blue"></div>
+        <div>
+          <p>Total Size</p>
+          <h2>196.45 GB</h2>
+          <span>All builds</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="filter-card">
+      <div class="filter-group">
+        <label>Search</label>
+        <input type="text" id="searchInput" placeholder="Search by ISO name or exam/course..." />
+      </div>
+
+      <div class="filter-group">
+        <label>Status</label>
+        <select id="statusFilter">
+          <option value="all">All Statuses</option>
+          <option value="success">Success</option>
+          <option value="failed">Failed</option>
+          <option value="progress">In Progress</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Template</label>
+        <select id="templateFilter">
+          <option value="all">All Templates</option>
+          <option value="high">High Security Template</option>
+          <option value="default">Default Exam Template</option>
+          <option value="basic">Basic Kiosk Template</option>
+        </select>
+      </div>
+
+      <button id="clearBtn" class="clear-btn">Clear Filters</button>
+      <button class="export-btn">⬇ Export</button>
+    </section>
+
+    <section class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>ISO Name</th>
+            <th>Exam / Course</th>
+            <th>Template</th>
+            <th>Date & Time</th>
+            <th>Status</th>
+            <th>Size</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody id="historyTable">
+          <tr data-status="success" data-template="high">
+            <td>Math101_ExamOS.iso</td>
+            <td>Mathematics 101</td>
+            <td>High Security Template</td>
+            <td>May 20, 2025 10:30 AM</td>
+            <td><span class="status success">Success</span></td>
+            <td>3.42 GB</td>
+            <td><button>⬇</button> <button>⋯</button></td>
+          </tr>
+
+          <tr data-status="success" data-template="default">
+            <td>PHY201_ExamOS.iso</td>
+            <td>Physics 201</td>
+            <td>Default Exam Template</td>
+            <td>May 19, 2025 04:15 PM</td>
+            <td><span class="status success">Success</span></td>
+            <td>3.35 GB</td>
+            <td><button>⬇</button> <button>⋯</button></td>
+          </tr>
+
+          <tr data-status="failed" data-template="high">
+            <td>CPE301_ExamOS.iso</td>
+            <td>CPE 301</td>
+            <td>High Security Template</td>
+            <td>May 19, 2025 11:02 AM</td>
+            <td><span class="status failed">Failed</span></td>
+            <td>-</td>
+            <td><button>↻</button> <button>⋯</button></td>
+          </tr>
+
+          <tr data-status="success" data-template="basic">
+            <td>ENG202_ExamOS.iso</td>
+            <td>Engineering 202</td>
+            <td>Basic Kiosk Template</td>
+            <td>May 18, 2025 09:45 AM</td>
+            <td><span class="status success">Success</span></td>
+            <td>3.28 GB</td>
+            <td><button>⬇</button> <button>⋯</button></td>
+          </tr>
+
+          <tr data-status="progress" data-template="default">
+            <td>CS102_ExamOS.iso</td>
+            <td>Computer Science 102</td>
+            <td>Default Exam Template</td>
+            <td>May 16, 2025 09:12 AM</td>
+            <td><span class="status progress">In Progress</span></td>
+            <td>1.75 GB</td>
+            <td><button disabled>⏳</button> <button>⋯</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="table-footer">
+        <p>Showing build history records</p>
+
+        <div class="pagination">
+          <button disabled>Previous</button>
+          <button class="active-page">1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>Next</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="buildhistory.js"></script>
+</body>
+</html>

@@ -60,7 +60,7 @@ if (loginForm) {
 
         // Route to appropriate dashboard
         if (currentRole === "admin") {
-          window.location.href = "admin-dashboard.html";
+          window.location.href = "dashboard.html";
         } else {
           window.location.href = "dashboard.html";
         }

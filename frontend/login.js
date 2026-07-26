@@ -1,6 +1,8 @@
+const API_BASE = "http://127.0.0.1:5000";
+
 document
 .getElementById("loginForm")
-.addEventListener("submit", function(e){
+.addEventListener("submit", async function(e){
 
     e.preventDefault();
 
@@ -15,10 +17,28 @@ document
         return;
     }
 
-    alert("Login Successful");
+    try {
+        const response = await fetch(`${API_BASE}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: username,
+                password: password,
+                role: "admin"
+            }),
+        });
 
-    // Later:
-    // connect to Flask backend
+        const data = await response.json();
 
-    // window.location.href = "dashboard.html";
+        if (response.ok) {
+            localStorage.setItem("user", username);
+            localStorage.setItem("role", "admin");
+            window.location.href = "dashboard.html";
+        } else {
+            alert(data.message || "Login failed");
+        }
+    } catch (error) {
+        console.error("Login failed:", error);
+        alert("Server connection failed. Is the backend running?");
+    }
 });

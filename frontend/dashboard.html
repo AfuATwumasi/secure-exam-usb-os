@@ -1,255 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Secure Exam OS Generator</title>
-  <link rel="stylesheet" href="dashboard.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Exam Configuration Dashboard</title>
+<link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
-
-  <div class="dashboard-container">
-
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="brand">
-        <img src="images/knustlogo.png" alt="KNUST Logo" />
-        <div>
-          <h2>KNUST</h2>
-          <p>Secure Exam OS Generator</p>
-        </div>
-      </div>
-
-      <nav class="nav-links">
-        <a class="active">Dashboard</a>
-        <a href="#generateIsoSection">Generate ISO</a>
-       <a href="buildhistory.html">Build History</a>
-       
-      </nav>
-
-      <div class="admin-box">
-        <div class="avatar"></div>
-        <div>
-          <h4>Admin User</h4>
-          <p>Administrator</p>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-
-      <header class="topbar">
-        <h1>Dashboard</h1>
-
-        <div class="topbar-right">
-          <button id="logoutBtn" class="logout-btn">
-        Logout
-    </button>
-
-        </div>
-      </header>
-
-      <!-- Stats -->
-      <section class="stats-grid">
-        <div class="stat-card">
-          <div class="icon green"></div>
-          <div>
-            <p>Total ISOs</p>
-            <h2>25</h2>
-            <span>All time generated</span>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="icon blue"></div>
-          <div>
-            <p>Recent Builds</p>
-            <h2>5</h2>
-            <span>In the last 7 days</span>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="icon purple"></div>
-          <div>
-            <p>Templates</p>
-            <h2>3</h2>
-            <span>Available templates</span>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="icon yellow"></div>
-          <div>
-            <p>Success Rate</p>
-            <h2>96%</h2>
-            <span>Successful builds</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Main Grid -->
-      <section class="content-grid">
-
-        <!-- Generate ISO Form -->
-        <div class="card large-card" id="generateIsoSection">
-          <div class="card-header">
-            <h2>Generate New ISO</h2>
-          </div>
-
-          <form id="isoForm">
-            <label>Exam URL / Moodle URL</label>
-            <input type="url" id="examUrl" placeholder="https://exam.knust.edu.gh" required />
-
-            <div class="form-row">
-              <div>
-                <label>Exam Name / Course</label>
-                <input type="text" id="examName" placeholder="e.g. Computer Networks" required />
-              </div>
-
-              <div>
-                <label>Exam Duration</label>
-                <input type="text" id="duration" placeholder="e.g. 2h 30m" required />
-              </div>
-            </div>
-
-            <div class="form-row">
-
-              <div>
-                <label>Security Profile</label>
-                <select>
-                  <option>High Security Recommended</option>
-                  <option>Medium Security</option>
-                  <option>Basic Security</option>
-                </select>
-              </div>
-            </div>
-
-            <button type="submit" class="generate-btn"> Generate ISO</button>
-          </form>
-        </div>
-
-        <!-- Security Features -->
-        <div class="card">
-  <h2>Security Options</h2>
-
-  <div class="checkbox-list">
-    <label>
-      <input type="checkbox" id="kioskMode" checked />
-      <span>Kiosk Mode</span>
-    </label>
-
-    <label>
-      <input type="checkbox" id="usbBoot" checked />
-      <span>USB Boot Support</span>
-    </label>
-
-    <label>
-      <input type="checkbox" id="browserLock" checked />
-      <span>Browser Lock</span>
-    </label>
-
-    <label>
-      <input type="checkbox" id="examUrlRestriction" checked />
-      <span>Exam URL Restriction</span>
-    </label>
-
-    <label>
-      <input type="checkbox" id="autoLogin" checked />
-      <span>Auto Login</span>
-    </label>
-
-    <label>
-      <input type="checkbox" id="disablePrinting" checked />
-      <span>Disable Printing</span>
-    </label>
-
-    <label>
-      <input type="checkbox" id="screenCaptureBlock" checked />
-      <span>Screen Capture Block</span>
-    </label>
-  </div>
-
-  <div class="security-note">
-    Selected options will be applied to the generated ISO.
-  </div>
+<div class="dashboard-container">
+<aside class="sidebar">
+<div class="brand"><img src="images/knustlogo.png" alt="KNUST Logo"><div><h2>KNUST</h2><p>Secure Exam OS Generator</p></div></div>
+<nav class="nav-links">
+<a class="active" href="#">Dashboard</a>
+<a href="#configCard">Exam Configuration</a>
+<a href="#historyCard">Build History</a>
+<a href="#" id="logoutBtn">Logout</a>
+</nav>
+</aside>
+<main class="main-content">
+<header class="topbar"><h1>Secure Exam Configuration Dashboard</h1></header>
+<section class="card config-card" id="configCard">
+<h2>Exam Configuration</h2>
+<form id="isoForm">
+<h3>Exam Information</h3>
+<div class="grid-2">
+<div><label>Exam Name</label><input type="text" id="examName" required></div>
+<div><label>Course Code</label><input type="text" id="courseCode" required></div>
+<div><label>Duration (Minutes)</label><input type="number" id="duration" required></div>
+<div><label>Institution</label><input type="text" id="institution" value="Kwame Nkrumah University of Science and Technology"></div>
 </div>
-
-        <!-- Recent Builds -->
-        <div class="card large-card">
-          <div class="card-header">
-            <h2>Recent Builds</h2>
-            <a href="buildhistory.html">View all</a>
-          </div>
-
-          <table>
-            <thead>
-              <tr>
-                <th>ISO Name</th>
-                <th>Exam / Course</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Size</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-
-            <tbody id="buildTable">
-              <tr>
-                <td>Math101_ExamOS.iso</td>
-                <td>Mathematics 101</td>
-                <td>Today</td>
-                <td><span class="success">Success</span></td>
-                <td>3.42 GB</td>
-                <td><button class="download-btn">⬇</button></td>
-              </tr>
-
-              <tr>
-                <td>CPE301_ExamOS.iso</td>
-                <td>CPE 301</td>
-                <td>Yesterday</td>
-                <td><span class="failed">Failed</span></td>
-                <td>-</td>
-                <td><button class="retry-btn">↻</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Build Progress -->
-        <div class="card">
-          <div class="card-header">
-            <h2>Build Progress</h2>
-            <button class="cancel-btn">Cancel Build</button>
-          </div>
-
-          <div class="progress-circle">
-            <span id="progressText">65%</span>
-          </div>
-
-          <h3>Generating ExamOS.iso</h3>
-          <p class="muted">Building secure exam environment...</p>
-
-          <ul class="progress-list">
-            <li>✅ Preparing system</li>
-            <li>✅ Applying security policies</li>
-            <li>✅ Installing required components</li>
-            <li>○ Creating bootable image</li>
-            <li>○ Finalizing ISO</li>
-          </ul>
-
-          <div class="progress-bar">
-            <div id="progressFill"></div>
-          </div>
-
-          <p class="time">Estimated time remaining: 00:02:45</p>
-        </div>
-
-      </section>
-    </main>
-  </div>
-
-  <script src="dashboard.js"></script>
+<label>Exam URL</label><input type="url" id="examUrl">
+<h3>Network Configuration</h3>
+<label>Exam Server</label><input type="text" id="examServer">
+<label>Allowed Domains</label><textarea id="allowedDomains" rows="4"></textarea>
+<label>Trusted Wi-Fi Networks</label><textarea id="trustedSSIDs" rows="4"></textarea>
+<label><input type="checkbox" id="allowEthernet" checked> Allow Ethernet Connection</label>
+<h3>Security Configuration</h3>
+<label>Security Profile</label>
+<select id="securityProfile"><option value="strict">Strict</option><option value="moderate">Moderate</option><option value="custom">Custom</option></select>
+<p>
+<label><input type="checkbox" id="kioskMode" checked> Kiosk Mode</label><br>
+<label><input type="checkbox" id="disableTerminal" checked> Disable Terminal</label><br>
+<label><input type="checkbox" id="disableUSB"> Disable USB Storage</label><br>
+<label><input type="checkbox" id="disablePrinting" checked> Disable Printing</label><br>
+<label><input type="checkbox" id="disableScreenshots" checked> Disable Screenshots</label>
+</p>
+<div class="button-row">
+<button type="button" id="saveConfigBtn">Save Configuration</button>
+<button type="submit" id="generateBtn">Generate Configuration</button>
+</div>
+</form>
+</section>
+<section class="card progress-card">
+<h2>Build Progress</h2>
+<div class="progress-circle"><span id="progressText">0%</span></div>
+<div class="progress-bar"><div id="progressFill"></div></div>
+<p id="buildStatus">Waiting for build...</p>
+</section>
+<section class="card history-card" id="historyCard">
+<h2>Build History</h2>
+<table>
+<thead><tr><th>ISO Name</th><th>Course</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+<tbody id="buildTable"></tbody>
+</table>
+</section>
+</main>
+</div>
+<script src="dashboard.js"></script>
 </body>
 </html>

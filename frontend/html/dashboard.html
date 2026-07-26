@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Secure Exam Configuration Dashboard</title>
-<link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
 <div class="dashboard-container">
 <aside class="sidebar">
-<div class="brand"><img src="images/knustlogo.png" alt="KNUST Logo"><div><h2>KNUST</h2><p>Secure Exam OS Generator</p></div></div>
+<div class="brand"><img src="../images/knustlogo.png" alt="KNUST Logo"><div><h2>KNUST</h2><p>Secure Exam OS Generator</p></div></div>
 <nav class="nav-links">
 <a class="active" href="#">Dashboard</a>
 <a href="#configCard">Exam Configuration</a>
@@ -46,8 +46,20 @@
 <label><input type="checkbox" id="disableScreenshots" checked> Disable Screenshots</label>
 </p>
 <div class="button-row">
-<button type="button" id="saveConfigBtn">Save Configuration</button>
-<button type="submit" id="generateBtn">Generate Configuration</button>
+
+    <button type="submit" id="generateBtn">
+        Generate Configuration
+    </button>
+
+    <button
+        type="button"
+        id="buildBtn"
+        disabled>
+
+        Build ISO
+
+    </button>
+
 </div>
 </form>
 </section>
@@ -66,6 +78,6 @@
 </section>
 </main>
 </div>
-<script src="dashboard.js"></script>
+<script src="../js/dashboard.js"></script>
 </body>
 </html>

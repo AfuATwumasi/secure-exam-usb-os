@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Build History</title>
-  <link rel="stylesheet" href="buildhistory.css" />
+  <link rel="stylesheet" href="../css/buildhistory.css" />
 </head>
 <body>
 
@@ -12,7 +12,7 @@
 
   <aside class="sidebar">
     <div class="brand">
-      <img src="images/knustlogo.png" alt="KNUST Logo" />
+      <img src="../images/knustlogo.png" alt="KNUST Logo" />
       <div>
         <h2>KNUST</h2>
         <p>Secure Exam OS Generator</p>
@@ -22,7 +22,7 @@
     <nav class="nav-links">
       <a href="dashboard.html"> Dashboard</a>
       <a href="dashboard.html"> Generate ISO</a>
-      <a href="build-history.html" class="active"> Build History</a>
+      <a href="buildhistory.html" class="active"> Build History</a>
   
 
     </nav>
@@ -54,7 +54,7 @@
         <div class="icon green"></div>
         <div>
           <p>Total Builds</p>
-          <h2>58</h2>
+         <h2 id="totalBuilds">0</h2>
           <span>All time</span>
         </div>
       </div>
@@ -63,7 +63,7 @@
         <div class="icon green"></div>
         <div>
           <p>Successful</p>
-          <h2>48</h2>
+          <h2 id="successfulBuilds">0</h2>
           <span>82.8%</span>
         </div>
       </div>
@@ -72,7 +72,7 @@
         <div class="icon red"></div>
         <div>
           <p>Failed</p>
-          <h2>8</h2>
+          <h2 id="failedBuilds">0</h2>
           <span>13.8%</span>
         </div>
       </div>
@@ -81,7 +81,7 @@
         <div class="icon yellow"></div>
         <div>
           <p>In Progress</p>
-          <h2>2</h2>
+          <h2 id="progressBuilds">0</h2>
           <span>3.4%</span>
         </div>
       </div>
@@ -90,7 +90,7 @@
         <div class="icon blue"></div>
         <div>
           <p>Total Size</p>
-          <h2>196.45 GB</h2>
+          <h2 id="totalSize">0 GB</h2>
           <span>All builds</span>
         </div>
       </div>
@@ -141,56 +141,24 @@
         </thead>
 
         <tbody id="historyTable">
-          <tr data-status="success" data-template="high">
-            <td>Math101_ExamOS.iso</td>
-            <td>Mathematics 101</td>
-            <td>High Security Template</td>
-            <td>May 20, 2025 10:30 AM</td>
-            <td><span class="status success">Success</span></td>
-            <td>3.42 GB</td>
-            <td><button>⬇</button> <button>⋯</button></td>
-          </tr>
 
-          <tr data-status="success" data-template="default">
-            <td>PHY201_ExamOS.iso</td>
-            <td>Physics 201</td>
-            <td>Default Exam Template</td>
-            <td>May 19, 2025 04:15 PM</td>
-            <td><span class="status success">Success</span></td>
-            <td>3.35 GB</td>
-            <td><button>⬇</button> <button>⋯</button></td>
-          </tr>
+<!-- Builds loaded from backend -->
 
-          <tr data-status="failed" data-template="high">
-            <td>CPE301_ExamOS.iso</td>
-            <td>CPE 301</td>
-            <td>High Security Template</td>
-            <td>May 19, 2025 11:02 AM</td>
-            <td><span class="status failed">Failed</span></td>
-            <td>-</td>
-            <td><button>↻</button> <button>⋯</button></td>
-          </tr>
+</tbody>
 
-          <tr data-status="success" data-template="basic">
-            <td>ENG202_ExamOS.iso</td>
-            <td>Engineering 202</td>
-            <td>Basic Kiosk Template</td>
-            <td>May 18, 2025 09:45 AM</td>
-            <td><span class="status success">Success</span></td>
-            <td>3.28 GB</td>
-            <td><button>⬇</button> <button>⋯</button></td>
-          </tr>
+<div id="emptyState" class="empty-state">
 
-          <tr data-status="progress" data-template="default">
-            <td>CS102_ExamOS.iso</td>
-            <td>Computer Science 102</td>
-            <td>Default Exam Template</td>
-            <td>May 16, 2025 09:12 AM</td>
-            <td><span class="status progress">In Progress</span></td>
-            <td>1.75 GB</td>
-            <td><button disabled>⏳</button> <button>⋯</button></td>
-          </tr>
-        </tbody>
+    <img src="../images/empty.svg" alt="No Builds">
+
+    <h3>No Builds Yet</h3>
+
+    <p>
+
+        Your generated ISO builds will appear here.
+
+    </p>
+
+</div>
       </table>
 
       <div class="table-footer">
@@ -209,6 +177,6 @@
   </main>
 </div>
 
-<script src="buildhistory.js"></script>
+<script src="../js/buildhistory.js"></script>
 </body>
 </html>

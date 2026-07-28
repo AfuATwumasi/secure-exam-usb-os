@@ -351,3 +351,87 @@ td button {
     grid-template-columns: 1fr;
   }
 }
+
+.empty-state{
+
+    display:none;
+
+    text-align:center;
+
+    padding:70px 20px;
+
+    color:#6b7280;
+
+}
+
+.empty-state img{
+
+    width:120px;
+
+    opacity:.75;
+
+    margin-bottom:20px;
+
+}
+
+.empty-state h3{
+
+    color:#111827;
+
+    margin-bottom:10px;
+
+}
+
+.download-btn{
+
+    background:#16a34a;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
+
+.download-btn:hover{
+
+    background:#15803d;
+
+}
+
+.retry-btn{
+
+    background:#dc2626;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
+
+.retry-btn:hover{
+
+    background:#b91c1c;
+
+}
+
+.loading{
+
+    text-align:center;
+
+    padding:40px;
+
+    color:#6b7280;
+
+}

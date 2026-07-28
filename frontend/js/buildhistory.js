@@ -1,4 +1,9 @@
 const API_BASE = "http://127.0.0.1:5000";
+
+// ==============================
+// DOM ELEMENTS
+// ==============================
+
 const historyTable = document.getElementById("historyTable");
 const searchInput = document.getElementById("searchInput");
 const statusFilter = document.getElementById("statusFilter");
@@ -6,142 +11,389 @@ const templateFilter = document.getElementById("templateFilter");
 const clearBtn = document.getElementById("clearBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 
+const totalBuilds = document.getElementById("totalBuilds");
+const successfulBuilds = document.getElementById("successfulBuilds");
+const failedBuilds = document.getElementById("failedBuilds");
+const progressBuilds = document.getElementById("progressBuilds");
+const totalSize = document.getElementById("totalSize");
+
+const emptyState = document.getElementById("emptyState");
+
 // ==============================
-// LOAD BUILD HISTORY FROM BACKEND
+// STATUS CSS MAPPING
+// ==============================
+
+const statusClass = {
+    pending: "progress",
+    building: "progress",
+    progress: "progress",
+    completed: "success",
+    success: "success",
+    failed: "failed"
+};
+
+// ==============================
+// LOAD BUILD HISTORY
 // ==============================
 
 async function loadBuildHistory() {
-  if (!historyTable) return;
 
-  try {
-    const response = await fetch(`${API_BASE}/api/config/builds`);
-    const data = await response.json();
+    try {
 
-    if (data.builds && data.builds.length > 0) {
-      historyTable.innerHTML = data.builds
-        .map(
-          (b) => `
-          <tr data-status="${b.status}" data-template="high">
-            <td>${b.build_id.substring(0, 20)}.iso</td>
-            <td>${b.config_id}</td>
-            <td>High Security Template</td>
-            <td>${new Date(b.created_at).toLocaleString()}</td>
-            <td><span class="status ${b.status}">${b.status}</span></td>
-            <td>${b.iso_filename ? "3.42 GB" : "-"}</td>
-            <td>
-              ${
-                b.status === "completed"
-                  ? '<button>⬇</button>'
-                  : b.status === "failed"
-                  ? '<button onclick="retryBuild(\'' + b.build_id + '\')">↻</button>'
-                  : '<button disabled>⏳</button>'
-              }
-              <button>⋯</button>
-            </td>
-          </tr>
-        `
-        )
-        .join("");
-    } else {
-      historyTable.innerHTML = `
-        <tr>
-          <td colspan="7" style="text-align: center; color: #888; padding: 40px;">
-            No builds found. Generate your first ISO from the dashboard.
-          </td>
-        </tr>
-      `;
+        const response =
+            await fetch(`${API_BASE}/api/config/builds`);
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(data.error || "Unable to load builds");
+
+        }
+
+        const builds = data.builds || [];
+
+        updateStatistics(builds);
+
+        renderTable(builds);
+
     }
-  } catch (error) {
-    console.error("Failed to load build history:", error);
-    historyTable.innerHTML = `
-      <tr>
-        <td colspan="7" style="text-align: center; color: #dc3545; padding: 40px;">
-          Failed to load builds. Is the backend running?
+
+    catch (error) {
+
+        console.error(error);
+
+        historyTable.innerHTML = `
+        <tr>
+            <td colspan="7" style="text-align:center;padding:40px;color:red;">
+                Failed to connect to backend.
+            </td>
+        </tr>`;
+
+    }
+
+}
+
+// ==============================
+// UPDATE DASHBOARD CARDS
+// ==============================
+
+function updateStatistics(builds){
+
+    totalBuilds.textContent = builds.length;
+
+    successfulBuilds.textContent =
+        builds.filter(b =>
+            b.status === "completed" ||
+            b.status === "success"
+        ).length;
+
+    failedBuilds.textContent =
+        builds.filter(b =>
+            b.status === "failed"
+        ).length;
+
+    progressBuilds.textContent =
+        builds.filter(b =>
+            b.status === "pending" ||
+            b.status === "building" ||
+            b.status === "progress"
+        ).length;
+
+    totalSize.textContent =
+        `${(successfulBuilds.textContent * 3.42).toFixed(2)} GB`;
+
+}
+
+// ==============================
+// RENDER TABLE
+// ==============================
+
+function renderTable(builds){
+
+    historyTable.innerHTML = "";
+
+    if(builds.length === 0){
+
+        emptyState.style.display = "block";
+
+        return;
+
+    }
+
+    emptyState.style.display = "none";
+
+    builds.forEach(build=>{
+
+        const row = document.createElement("tr");
+
+        row.dataset.status = build.status;
+        row.dataset.template = "default";
+
+        row.innerHTML = `
+
+        <td>
+
+            ${build.iso_filename || build.build_id + ".iso"}
+
         </td>
-      </tr>
+
+        <td>
+
+            ${build.config_id}
+
+        </td>
+
+        <td>
+
+            Default Exam Template
+
+        </td>
+
+        <td>
+
+            ${new Date(build.created_at).toLocaleString()}
+
+        </td>
+
+        <td>
+
+            <span class="status ${statusClass[build.status]}">
+
+                ${build.status}
+
+            </span>
+
+        </td>
+
+        <td>
+
+            ${build.iso_filename ? "3.42 GB" : "-"}
+
+        </td>
+
+        <td>
+
+            ${actionButtons(build)}
+
+        </td>
+
+        `;
+
+        historyTable.appendChild(row);
+
+    });
+
+}
+
+// ==============================
+// ACTION BUTTONS
+// ==============================
+
+function actionButtons(build){
+
+    if(build.status==="completed" || build.status==="success"){
+
+        return `
+
+        <button
+            disabled
+            title="Download endpoint not yet implemented">
+
+            Download
+
+        </button>
+
+        `;
+
+    }
+
+    if(build.status==="failed"){
+
+        return `
+
+        <button
+            class="retry-btn"
+            onclick="retryBuild('${build.build_id}')">
+
+            Retry
+
+        </button>
+
+        `;
+
+    }
+
+    return `
+
+    <button disabled>
+
+        Building...
+
+    </button>
+
     `;
-  }
+
 }
 
 // ==============================
-// FILTERS (client-side)
+// RETRY BUILD
 // ==============================
 
-function filterBuilds() {
-  const rows = historyTable.querySelectorAll("tr");
-  const searchValue = searchInput.value.toLowerCase();
-  const selectedStatus = statusFilter.value;
-  const selectedTemplate = templateFilter.value;
+async function retryBuild(buildId){
 
-  rows.forEach(row => {
-    const rowText = row.textContent.toLowerCase();
-    const rowStatus = row.dataset.status;
-    const rowTemplate = row.dataset.template;
+    if(!confirm("Retry this ISO build?")) return;
 
-    const matchesSearch = rowText.includes(searchValue);
-    const matchesStatus = selectedStatus === "all" || rowStatus === selectedStatus;
-    const matchesTemplate = selectedTemplate === "all" || rowTemplate === selectedTemplate;
+    try{
 
-    row.style.display = (matchesSearch && matchesStatus && matchesTemplate) ? "" : "none";
-  });
+        const response =
+            await fetch(`${API_BASE}/api/config/builds/${buildId}`);
+
+        const build =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(build.error);
+
+        }
+
+        const retry =
+            await fetch(
+
+                `${API_BASE}/api/config/${build.config_id}/build`,
+
+                {
+                    method:"POST"
+                }
+
+            );
+
+        const result =
+            await retry.json();
+
+        if(retry.ok){
+
+            alert("ISO build requested.");
+
+            loadBuildHistory();
+
+        }
+
+        else{
+
+            alert(result.error || "Retry failed.");
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert("Unable to connect to backend.");
+
+    }
+
 }
 
-searchInput.addEventListener("input", filterBuilds);
-statusFilter.addEventListener("change", filterBuilds);
-templateFilter.addEventListener("change", filterBuilds);
+// ==============================
+// SEARCH + FILTERS
+// ==============================
 
-clearBtn.addEventListener("click", function () {
-  searchInput.value = "";
-  statusFilter.value = "all";
-  templateFilter.value = "all";
-  filterBuilds();
+function filterBuilds(){
+
+    const rows =
+        historyTable.querySelectorAll("tr");
+
+    const search =
+        searchInput.value.toLowerCase();
+
+    rows.forEach(row=>{
+
+        const text =
+            row.textContent.toLowerCase();
+
+        const status =
+            row.dataset.status;
+
+        const template =
+            row.dataset.template;
+
+        const searchMatch =
+            text.includes(search);
+
+        const statusMatch =
+            statusFilter.value==="all" ||
+            status===statusFilter.value;
+
+        const templateMatch =
+            templateFilter.value==="all" ||
+            template===templateFilter.value;
+
+        row.style.display =
+            searchMatch &&
+            statusMatch &&
+            templateMatch
+
+            ?
+
+            ""
+
+            :
+
+            "none";
+
+    });
+
+}
+
+searchInput.addEventListener("input",filterBuilds);
+
+statusFilter.addEventListener("change",filterBuilds);
+
+templateFilter.addEventListener("change",filterBuilds);
+
+// ==============================
+// CLEAR FILTERS
+// ==============================
+
+clearBtn.addEventListener("click",()=>{
+
+    searchInput.value="";
+
+    statusFilter.value="all";
+
+    templateFilter.value="all";
+
+    filterBuilds();
+
 });
 
 // ==============================
 // LOGOUT
 // ==============================
 
-logoutBtn.addEventListener("click", function () {
-  if (confirm("Are you sure you want to log out?")) {
-    localStorage.removeItem("user");
-    localStorage.removeItem("role");
-    window.location.href = "login.html";
-  }
+logoutBtn.addEventListener("click",()=>{
+
+    if(confirm("Log out?")){
+
+        localStorage.removeItem("user");
+        localStorage.removeItem("role");
+
+        window.location.href="login.html";
+
+    }
+
 });
 
 // ==============================
-// RETRY BUILD
+// START
 // ==============================
 
-async function retryBuild(buildId) {
-  if (!confirm("Retry this build?")) return;
+document.addEventListener("DOMContentLoaded",()=>{
 
-  try {
-    const response = await fetch(`${API_BASE}/api/config/builds/${buildId}`);
-    const data = await response.json();
+    loadBuildHistory();
 
-    if (response.ok && data.config_id) {
-      const buildResponse = await fetch(
-        `${API_BASE}/api/config/${data.config_id}/build`,
-        { method: "POST" }
-      );
-      const buildData = await buildResponse.json();
-
-      if (buildResponse.ok) {
-        alert("Build retried! New ID: " + buildData.build_id);
-        loadBuildHistory();
-      } else {
-        alert("Retry failed: " + (buildData.error || ""));
-      }
-    }
-  } catch (error) {
-    console.error("Retry failed:", error);
-    alert("Server connection failed");
-  }
-}
-
-// ==============================
-// INIT
-// ==============================
-
-document.addEventListener("DOMContentLoaded", loadBuildHistory);
+});   

@@ -1,83 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secure Exam Configuration Dashboard</title>
-<link rel="stylesheet" href="../css/dashboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="../css/buildhistory.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
+
 <body>
+
 <div class="dashboard-container">
-<aside class="sidebar">
-<div class="brand"><img src="../images/knustlogo.png" alt="KNUST Logo"><div><h2>KNUST</h2><p>Secure Exam OS Generator</p></div></div>
-<nav class="nav-links">
-<a class="active" href="#">Dashboard</a>
-<a href="#configCard">Exam Configuration</a>
-<a href="#historyCard">Build History</a>
-<a href="#" id="logoutBtn">Logout</a>
-</nav>
-</aside>
-<main class="main-content">
-<header class="topbar"><h1>Secure Exam Configuration Dashboard</h1></header>
-<section class="card config-card" id="configCard">
-<h2>Exam Configuration</h2>
-<form id="isoForm">
-<h3>Exam Information</h3>
-<div class="grid-2">
-<div><label>Exam Name</label><input type="text" id="examName" required></div>
-<div><label>Course Code</label><input type="text" id="courseCode" required></div>
-<div><label>Duration (Minutes)</label><input type="number" id="duration" required></div>
-<div><label>Institution</label><input type="text" id="institution" value="Kwame Nkrumah University of Science and Technology"></div>
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <img src="../images/knustlogo.png" alt="KNUST Logo">
+
+            <div>
+                <h2>KNUST</h2>
+                <p>Secure Exam OS Generator</p>
+            </div>
+        </div>
+
+        <nav class="nav-links">
+
+            <a href="dashboard.html" class="active">
+                Dashboard
+            </a>
+
+            <a href="#configuration">
+                Exam Configuration
+            </a>
+
+            <a href="buildhistory.html">
+                Build History
+            </a>
+
+        </nav>
+
+        <div class="admin-box">
+
+            <div class="avatar">
+                👤
+            </div>
+
+            <div>
+                <h4>Admin User</h4>
+                <p>Administrator</p>
+            </div>
+
+        </div>
+
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>Dashboard</h1>
+
+                <p>Create and manage secure exam configurations</p>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <button id="logoutBtn" class="logout-btn">
+
+                    Logout
+
+                </button>
+
+            </div>
+
+        </header>
+
+        <!-- Configuration Card -->
+
+        <section class="table-card" id="configuration">
+
+            <h2>Exam Configuration</h2>
+
+            <form id="isoForm">
+
+                <div class="form-grid">
+
+                    <div>
+
+                        <label for="examName">Exam Name</label>
+
+                        <input
+                            type="text"
+                            id="examName"
+                            placeholder="Enter exam name"
+                            required>
+
+                    </div>
+
+                    <div>
+
+                        <label for="courseCode">Course Code</label>
+
+                        <input
+                            type="text"
+                            id="courseCode"
+                            placeholder="e.g. CSM452"
+                            required>
+
+                    </div>
+
+                    <div>
+
+                        <label for="duration">Duration (Minutes)</label>
+
+                        <input
+                            type="number"
+                            id="duration"
+                            required>
+
+                    </div>
+
+                    <div>
+
+                        <label for="institution">Institution</label>
+
+                        <input
+                            type="text"
+                            id="institution"
+                            value="Kwame Nkrumah University of Science and Technology">
+
+                    </div>
+
+                </div>
+
+                <label for="examUrl">
+
+                    Exam URL
+
+                </label>
+
+                <input
+                    type="url"
+                    id="examUrl"
+                    placeholder="https://exam.knust.edu.gh">
+
+                <h3>Network Configuration</h3>
+
+                <label for="examServer">
+
+                    Exam Server
+
+                </label>
+
+                <input
+                    type="text"
+                    id="examServer">
+
+                <label for="allowedDomains">
+
+                    Allowed Domains
+
+                </label>
+
+                <textarea
+                    id="allowedDomains"
+                    rows="3"></textarea>
+
+                <label for="trustedSSIDs">
+
+                    Trusted Wi-Fi Networks
+
+                </label>
+
+                <textarea
+                    id="trustedSSIDs"
+                    rows="3"></textarea>
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        id="allowEthernet"
+                        checked>
+
+                    Allow Ethernet Connection
+
+                </label>
+
+                <h3>Security Configuration</h3>
+
+                <label>
+
+                    Security Profile
+
+                </label>
+
+                <select id="securityProfile">
+
+                    <option value="strict">Strict</option>
+
+                    <option value="moderate">Moderate</option>
+
+                    <option value="custom">Custom</option>
+
+                </select>
+
+                <div class="checkbox-grid">
+
+                    <label><input type="checkbox" id="kioskMode" checked> Kiosk Mode</label>
+
+                    <label><input type="checkbox" id="disableTerminal" checked> Disable Terminal</label>
+
+                    <label><input type="checkbox" id="disableUSB"> Disable USB Storage</label>
+
+                    <label><input type="checkbox" id="disablePrinting" checked> Disable Printing</label>
+
+                    <label><input type="checkbox" id="disableScreenshots" checked> Disable Screenshots</label>
+
+                </div>
+
+                <div class="button-group">
+
+                    <button
+                        type="submit"
+                        id="generateBtn"
+                        class="export-btn">
+
+                        Generate Configuration
+
+                    </button>
+
+                    <button
+                        type="button"
+                        id="buildBtn"
+                        class="export-btn"
+                        disabled>
+
+                        Build ISO
+
+                    </button>
+
+                </div>
+                                </div>
+
+            </form>
+
+        </section>
+
+        <!-- Build Progress -->
+
+        <section class="table-card">
+
+            <h2>Build Progress</h2>
+
+            <div class="progress-container">
+
+                <div class="progress-circle">
+
+                    <span id="progressText">0%</span>
+
+                </div>
+
+                <div class="progress-info">
+
+                    <div class="progress-bar">
+
+                        <div id="progressFill"></div>
+
+                    </div>
+
+                    <p id="buildStatus">
+
+                        Waiting to generate configuration...
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
 </div>
-<label>Exam URL</label><input type="url" id="examUrl">
-<h3>Network Configuration</h3>
-<label>Exam Server</label><input type="text" id="examServer">
-<label>Allowed Domains</label><textarea id="allowedDomains" rows="4"></textarea>
-<label>Trusted Wi-Fi Networks</label><textarea id="trustedSSIDs" rows="4"></textarea>
-<label><input type="checkbox" id="allowEthernet" checked> Allow Ethernet Connection</label>
-<h3>Security Configuration</h3>
-<label>Security Profile</label>
-<select id="securityProfile"><option value="strict">Strict</option><option value="moderate">Moderate</option><option value="custom">Custom</option></select>
-<p>
-<label><input type="checkbox" id="kioskMode" checked> Kiosk Mode</label><br>
-<label><input type="checkbox" id="disableTerminal" checked> Disable Terminal</label><br>
-<label><input type="checkbox" id="disableUSB"> Disable USB Storage</label><br>
-<label><input type="checkbox" id="disablePrinting" checked> Disable Printing</label><br>
-<label><input type="checkbox" id="disableScreenshots" checked> Disable Screenshots</label>
-</p>
-<div class="button-row">
 
-    <button type="submit" id="generateBtn">
-        Generate Configuration
-    </button>
-
-    <button
-        type="button"
-        id="buildBtn"
-        disabled>
-
-        Build ISO
-
-    </button>
-
-</div>
-</form>
-</section>
-<section class="card progress-card">
-<h2>Build Progress</h2>
-<div class="progress-circle"><span id="progressText">0%</span></div>
-<div class="progress-bar"><div id="progressFill"></div></div>
-<p id="buildStatus">Waiting for build...</p>
-</section>
-<section class="card history-card" id="historyCard">
-<h2>Build History</h2>
-<table>
-<thead><tr><th>ISO Name</th><th>Course</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
-<tbody id="buildTable"></tbody>
-</table>
-</section>
-</main>
-</div>
 <script src="../js/dashboard.js"></script>
+
 </body>
 </html>
+

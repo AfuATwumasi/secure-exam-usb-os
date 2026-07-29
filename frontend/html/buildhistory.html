@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build History</title>
+  <link rel="stylesheet" href="../css/buildhistory.css" />
+</head>
+<body>
+
+<div class="dashboard-container">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <img src="../images/knustlogo.png" alt="KNUST Logo" />
+      <div>
+        <h2>KNUST</h2>
+        <p>Secure Exam OS Generator</p>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <a href="dashboard.html"> Dashboard</a>
+      <a href="dashboard.html"> Generate ISO</a>
+      <a href="buildhistory.html" class="active"> Build History</a>
+  
+
+    </nav>
+
+    <div class="admin-box">
+      <div class="avatar">👤</div>
+      <div>
+        <h4>Admin User</h4>
+        <p>Administrator</p>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+      <div>
+        <h1>Build History</h1>
+        <p>View and manage all ISO builds</p>
+      </div>
+
+      <div class="topbar-right">
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+      </div>
+    </header>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="icon green"></div>
+        <div>
+          <p>Total Builds</p>
+         <h2 id="totalBuilds">0</h2>
+          <span>All time</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="icon green"></div>
+        <div>
+          <p>Successful</p>
+          <h2 id="successfulBuilds">0</h2>
+          <span>82.8%</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="icon red"></div>
+        <div>
+          <p>Failed</p>
+          <h2 id="failedBuilds">0</h2>
+          <span>13.8%</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="icon yellow"></div>
+        <div>
+          <p>In Progress</p>
+          <h2 id="progressBuilds">0</h2>
+          <span>3.4%</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="icon blue"></div>
+        <div>
+          <p>Total Size</p>
+          <h2 id="totalSize">0 GB</h2>
+          <span>All builds</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="filter-card">
+      <div class="filter-group">
+        <label>Search</label>
+        <input type="text" id="searchInput" placeholder="Search by ISO name or exam/course..." />
+      </div>
+
+      <div class="filter-group">
+        <label>Status</label>
+        <select id="statusFilter">
+          <option value="all">All Statuses</option>
+          <option value="success">Success</option>
+          <option value="failed">Failed</option>
+          <option value="progress">In Progress</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Template</label>
+        <select id="templateFilter">
+          <option value="all">All Templates</option>
+          <option value="high">High Security Template</option>
+          <option value="default">Default Exam Template</option>
+          <option value="basic">Basic Kiosk Template</option>
+        </select>
+      </div>
+
+      <button id="clearBtn" class="clear-btn">Clear Filters</button>
+      <button class="export-btn">⬇ Export</button>
+    </section>
+
+    <section class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>ISO Name</th>
+            <th>Exam / Course</th>
+            <th>Template</th>
+            <th>Date & Time</th>
+            <th>Status</th>
+            <th>Size</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody id="historyTable">
+
+<!-- Builds loaded from backend -->
+
+</tbody>
+
+<div id="emptyState" class="empty-state">
+
+    <img src="../images/empty.svg" alt="No Builds">
+
+    <h3>No Builds Yet</h3>
+
+    <p>
+
+        Your generated ISO builds will appear here.
+
+    </p>
+
+</div>
+      </table>
+
+      <div class="table-footer">
+        <p>Showing build history records</p>
+
+        <div class="pagination">
+          <button disabled>Previous</button>
+          <button class="active-page">1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>Next</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="../js/buildhistory.js"></script>
+</body>
+</html>

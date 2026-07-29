@@ -74,11 +74,15 @@ load_exam_config() {
     # Examination
     EXAM_NAME=$(json_value '.exam.name' 'KNUST Examination')
     EXAM_URL=$(json_value '.exam.url' '')
-    EXAM_PROFILE=$(json_value '.exam.profile' 'standard')
+    EXAM_PROFILE=$(
+        json_value '.security.profile' 'strict'
+    )
 
     # Browser
     KIOSK_MODE=$(json_value '.browser.kiosk_mode' 'true')
-    RESTART_BROWSER=$(json_value '.browser.restart_browser' 'true')
+    RESTART_BROWSER=$(
+        json_value '.browser.restart_if_closed // .browser.restart_browser' 'true'
+    )
     STARTUP_DELAY=$(json_value '.browser.startup_delay' '5')
 
     # System

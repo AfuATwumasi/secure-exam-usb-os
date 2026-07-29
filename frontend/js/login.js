@@ -30,8 +30,10 @@ document
         const data = await response.json();
 
         if(response.ok){
-            localStorage.setItem("user", email);
-            localStorage.setItem("role", "admin");
+            localStorage.setItem("admin_id", String(data.user.admin_id));
+            localStorage.setItem("user", data.user.email || email);
+            localStorage.setItem("username", data.user.username || email);
+            localStorage.setItem("role", data.user.role || "admin");
             window.location.href = "dashboard.html";
         }else{
             alert(data.message || "Login failed");
@@ -42,5 +44,3 @@ document
         alert("Unable to connect to the backend.");
     }
 });
-</｜｜DSML｜｜>
-</write_to_file>

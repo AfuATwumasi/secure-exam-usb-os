@@ -22,10 +22,11 @@ WHERE NOT EXISTS (
 );
 
 INSERT INTO exam_configurations (
-    exam_name, exam_url, duration, exam_source, moodle_course_id,
-    template_id, profile_id, created_by
+    config_uuid, exam_name, exam_url, duration, exam_source, moodle_course_id,
+    template_id, profile_id, created_by, config_json
 )
 SELECT
+    'cfg-demo-database-systems-final',
     'Database Systems Final Examination',
     'https://exam.example.edu/database-systems-final',
     120,
@@ -36,14 +37,16 @@ SELECT
      ORDER BY template_id DESC LIMIT 1),
     (SELECT profile_id FROM security_profiles
      WHERE profile_name = 'Standard Examination Lockdown'),
-    (SELECT admin_id FROM admins WHERE username = 'demo_admin')
+    (SELECT admin_id FROM admins WHERE username = 'demo_admin'),
+    '{"exam":{"name":"Database Systems Final Examination","url":"https://exam.example.edu/database-systems-final"}}'
 WHERE NOT EXISTS (
     SELECT 1 FROM exam_configurations
     WHERE exam_name = 'Database Systems Final Examination'
 );
 
-INSERT INTO iso_builds (config_id, admin_id, iso_name, status, iso_size, completed_at)
+INSERT INTO iso_builds (build_uuid, config_id, admin_id, iso_name, status, iso_size, completed_at)
 SELECT
+    'build-demo-database-systems-final',
     (SELECT config_id FROM exam_configurations
      WHERE exam_name = 'Database Systems Final Examination'
      ORDER BY config_id DESC LIMIT 1),

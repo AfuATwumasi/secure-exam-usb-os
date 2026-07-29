@@ -48,7 +48,8 @@ body{
     height:40px;
 }
 
-.header h1{
+.header h1,
+.header h2{
     font-size:18px;
     font-weight:700;
     color:#354564;

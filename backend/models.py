@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, Text, DateTime, Boolean, ForeignKey, MetaData
+from sqlalchemy import Table, Column, Integer, String, Text, DateTime, ForeignKey, MetaData
 from datetime import datetime
 
 
@@ -12,7 +12,7 @@ admins = Table(
     Column("username", String, nullable=False, unique=True),
     Column("email", String, nullable=False, unique=True),
     Column("password_hash", String, nullable=False),
-    Column("role", String, default="Administrator"),
+    Column("role", String, nullable=False, default="Administrator"),
     Column("created_at", DateTime, default=datetime.utcnow),
     Column("last_login", DateTime, nullable=True),
 )
@@ -61,7 +61,7 @@ iso_builds = Table(
     Column("build_id", Integer, primary_key=True),
     Column("build_uuid", String, unique=True, nullable=False),
     Column("config_id", Integer, ForeignKey("exam_configurations.config_id"), nullable=False),
-    Column("admin_id", Integer, ForeignKey("admins.admin_id"), nullable=True),
+    Column("admin_id", Integer, ForeignKey("admins.admin_id"), nullable=False),
     Column("iso_name", String, default=""),
     Column("status", String, default="Pending"),
     Column("iso_size", String, default=""),
@@ -120,4 +120,12 @@ admin_audit_logs = Table(
     Column("entity_id", Integer, nullable=True),
     Column("description", Text, default=""),
     Column("created_at", DateTime, default=datetime.utcnow),
+)
+
+# ----- Legacy tables (for backward compatibility with student imports) -----
+students = Table(
+    "students", metadata,
+    Column("id", Integer, primary_key=True),
+    Column("username", String),
+    Column("email", String),
 )

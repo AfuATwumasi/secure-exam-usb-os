@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS security_profiles (
 
 CREATE TABLE IF NOT EXISTS exam_configurations (
     config_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    config_uuid TEXT NOT NULL UNIQUE,
     exam_name TEXT NOT NULL,
     exam_url TEXT,
     duration INTEGER,
@@ -42,6 +43,7 @@ CREATE TABLE IF NOT EXISTS exam_configurations (
     template_id INTEGER,
     profile_id INTEGER,
     created_by INTEGER,
+    config_json TEXT NOT NULL DEFAULT '{}',
     created_at DATETIME NOT NULL DEFAULT (datetime('now')),
     FOREIGN KEY (template_id) REFERENCES templates (template_id)
         ON UPDATE CASCADE ON DELETE SET NULL,
@@ -53,12 +55,15 @@ CREATE TABLE IF NOT EXISTS exam_configurations (
 
 CREATE TABLE IF NOT EXISTS iso_builds (
     build_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    build_uuid TEXT NOT NULL UNIQUE,
     config_id INTEGER NOT NULL,
     admin_id INTEGER NOT NULL,
     iso_name TEXT,
     status TEXT NOT NULL DEFAULT 'Pending'
         CHECK (status IN ('Pending', 'Building', 'Completed', 'Failed')),
     iso_size TEXT,
+    error_message TEXT,
+    build_log TEXT,
     created_at DATETIME NOT NULL DEFAULT (datetime('now')),
     completed_at DATETIME,
     FOREIGN KEY (config_id) REFERENCES exam_configurations (config_id)

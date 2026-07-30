@@ -30,5 +30,5 @@
 - [OS/scripts/config-loader.sh](OS/scripts/config-loader.sh)
 - [OS/config/system.example.json](OS/config/system.example.json)
 
-## Suggested Next Step
+## Next Step
 Use the Moodle test URL once it is ready, then connect the ISO builder stub to the real build pipeline on the OS side.

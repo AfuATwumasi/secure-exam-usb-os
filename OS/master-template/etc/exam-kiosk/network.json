@@ -1,0 +1,29 @@
+{
+  "mode": "restricted",
+  "connection": {
+    "allow_wifi": true,
+    "allow_ethernet": true,
+    "allow_manual_configuration": false
+  },
+  "filtering": {
+    "enable_domain_filtering": true,
+    "allow_dns": true,
+    "allow_http": true,
+    "allow_https": true,
+    "block_other_traffic": false
+  },
+  "allowed_domains": [
+    "example.com",
+    "192.168.0.149"
+  ],
+  "allowed_ports": [
+    53,
+    80,
+    443
+  ],
+  "connectivity_test": {
+    "enabled": true,
+    "test_host": "192.168.0.149",
+    "timeout_seconds": 20
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "exam": {
+    "name": "KNUST Secure Examination",
+    "url": "http://192.168.0.149/",
+    "institution": "Kwame Nkrumah University of Science and Technology",
+    "allowed_domains": [
+      "example.com"
+    ]
+  },
+  "browser": {
+    "kiosk_mode": true,
+    "restart_if_closed": true,
+    "startup_delay_seconds": 8,
+    "network_wait_seconds": 60,
+    "disable_downloads": true,
+    "disable_printing": true,
+    "disable_private_browsing": true,
+    "disable_password_saving": true,
+    "disable_browser_updates": true
+  },
+  "system": {
+    "hostname": "knust-exam-os",
+    "live_username": "exam",
+    "autologin": true,
+    "build_version": "0.1.0"
+  },
+  "network": {
+    "mode": "trusted-network",
+    "connection": {
+      "allow_wifi": true,
+      "allow_ethernet": true,
+      "allow_manual_configuration": false
+    },
+    "trusted_networks": [
+      {
+        "ssid": "KNUST_EXAM",
+        "connection_type": "wifi"
+      }
+    ],
+    "verification": {
+      "require_trusted_network": false,
+      "require_internet": false,
+      "require_exam_server": true,
+      "internet_test_host": "1.1.1.1",
+      "exam_server": "192.168.0.149",
+      "timeout_seconds": 20
+    },
+    "filtering": {
+      "enable_domain_filtering": true,
+      "block_other_traffic": false
+    },
+    "allowed_domains": [
+      "example.com"
+    ],
+    "allowed_ports": [
+      53,
+      80,
+      443
+    ]
+  },
+  "security": {
+    "profile": "strict",
+    "desktop": {
+      "disable_terminal": true,
+      "disable_file_manager": true,
+      "disable_settings": true,
+      "disable_task_manager": true,
+      "disable_desktop_icons": true,
+      "disable_right_click": true,
+      "hide_panel": true
+    },
+    "keyboard": {
+      "disable_alt_tab": true,
+      "disable_ctrl_alt_t": true,
+      "disable_super_key": true,
+      "disable_run_dialog": true,
+      "disable_workspace_switching": true,
+      "disable_virtual_terminals": true
+    },
+    "devices": {
+      "disable_usb_storage": false,
+      "disable_bluetooth": true,
+      "disable_camera": false,
+      "disable_printing": true
+    },
+    "session": {
+      "disable_logout": true,
+      "disable_shutdown": true,
+      "disable_suspend": true,
+      "disable_screen_lock": true,
+      "clear_session_on_exit": true
+    },
+    "browser": {
+      "disable_developer_tools": true,
+      "disable_view_source": true,
+      "disable_new_windows": true,
+      "disable_extensions": true,
+      "disable_clipboard": false
+    }
+  },
+  "branding": {
+    "product_name": "KNUST Secure Exam OS",
+    "short_name": "KNUST Exam OS",
+    "institution": "Kwame Nkrumah University of Science and Technology",
+    "wallpaper": "/usr/share/backgrounds/knust-exam/knust_wallpaper1.jpeg",
+    "desktop_background_style": "zoomed",
+    "show_desktop_branding": true,
+    "show_build_version": true
+  },
+  "administrator": {
+    "username": "admin",
+    "allow_tty_login": true,
+    "allow_gui_login": true,
+    "allow_recovery": true
+  },
+  "student": {
+    "username": "exam",
+    "autologin": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+    "administrator": {
+        "username": "admin",
+        "allow_tty_login": true,
+        "allow_gui_login": true,
+        "allow_recovery": true
+    },
+
+    "student": {
+        "username": "exam",
+        "autologin": true
+    }
+}

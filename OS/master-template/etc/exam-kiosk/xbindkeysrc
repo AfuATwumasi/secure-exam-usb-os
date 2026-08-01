@@ -1,0 +1,13 @@
+# Secure Examination OS — blocked keyboard shortcuts
+
+# Block Ctrl+T: Firefox new tab
+"true"
+    Control + t
+
+# Block left Windows/Super key
+"true"
+    Super_L
+
+# Block right Windows/Super key
+"true"
+    Super_R

@@ -1,0 +1,6 @@
+Product: KNUST Secure Exam OS
+Version: 0.1.0
+Base: Xubuntu 24.04.4 LTS
+Desktop: XFCE
+Build Tool: Cubic
+Architecture: AMD64

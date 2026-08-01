@@ -1,0 +1,27 @@
+{
+  "exam": {
+    "name": "KNUST Secure Examination",
+    "url": "https://example.com",
+    "institution": "Kwame Nkrumah University of Science and Technology",
+    "allowed_domains": [
+      "example.com"
+    ]
+  },
+  "browser": {
+    "kiosk_mode": true,
+    "restart_if_closed": true,
+    "startup_delay_seconds": 8,
+    "network_wait_seconds": 60,
+    "disable_downloads": true,
+    "disable_printing": true,
+    "disable_private_browsing": true,
+    "disable_password_saving": true,
+    "disable_browser_updates": true
+  },
+  "system": {
+    "hostname": "knust-exam-os",
+    "live_username": "exam",
+    "autologin": true,
+    "build_version": "0.1.0"
+  }
+}

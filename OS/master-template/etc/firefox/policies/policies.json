@@ -1,0 +1,51 @@
+{
+  "policies": {
+    "DisableAppUpdate": true,
+    "DisableDeveloperTools": true,
+    "DisableFirefoxAccounts": true,
+    "DisableFirefoxStudies": true,
+    "DisableFormHistory": true,
+    "DisablePocket": true,
+    "DisablePrivateBrowsing": true,
+    "DisableProfileImport": true,
+    "DisableProfileRefresh": true,
+    "DisableSetDesktopBackground": true,
+    "DisableTelemetry": true,
+    "DontCheckDefaultBrowser": true,
+    "OfferToSaveLogins": false,
+    "PasswordManagerEnabled": false,
+    "PrintingEnabled": false,
+    "Homepage": {
+      "URL": "https://example.com",
+      "Locked": true,
+      "StartPage": "homepage"
+    },
+    "ExtensionSettings": {
+      "*": {
+        "installation_mode": "blocked"
+      }
+    },
+    "Preferences": {
+      "browser.download.useDownloadDir": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "browser.download.alwaysOpenPanel": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "browser.sessionstore.resume_from_crash": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "browser.tabs.warnOnClose": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "devtools.policy.disabled": {
+        "Value": true,
+        "Status": "locked"
+      }
+    }
+  }
+}

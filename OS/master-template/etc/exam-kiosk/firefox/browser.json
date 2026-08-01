@@ -1,0 +1,11 @@
+{
+  "homepage": "https://example.com",
+  "allow_private_browsing": false,
+  "allow_printing": false,
+  "allow_developer_tools": false,
+  "allow_password_manager": false,
+  "allow_telemetry": false,
+  "allow_browser_updates": false,
+  "allow_extensions": false,
+  "allow_downloads": false
+}

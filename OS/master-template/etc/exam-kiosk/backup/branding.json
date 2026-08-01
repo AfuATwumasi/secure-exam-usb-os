@@ -1,0 +1,9 @@
+{
+  "product_name": "KNUST Secure Exam OS",
+  "short_name": "KNUST Exam OS",
+  "institution": "Kwame Nkrumah University of Science and Technology",
+  "wallpaper": "/usr/share/backgrounds/knust/knust-wallpaper.png",
+  "desktop_background_style": "zoomed",
+  "show_desktop_branding": true,
+  "show_build_version": true
+}

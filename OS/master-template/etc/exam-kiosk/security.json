@@ -1,0 +1,40 @@
+{
+  "profile": "strict",
+  "desktop": {
+    "disable_terminal": true,
+    "disable_file_manager": true,
+    "disable_settings": true,
+    "disable_task_manager": true,
+    "disable_desktop_icons": true,
+    "disable_right_click": true,
+    "hide_panel": true
+  },
+  "keyboard": {
+    "disable_alt_tab": true,
+    "disable_ctrl_alt_t": true,
+    "disable_super_key": true,
+    "disable_run_dialog": true,
+    "disable_workspace_switching": true,
+    "disable_virtual_terminals": true
+  },
+  "devices": {
+    "disable_usb_storage": false,
+    "disable_bluetooth": true,
+    "disable_camera": false,
+    "disable_printing": true
+  },
+  "session": {
+    "disable_logout": true,
+    "disable_shutdown": true,
+    "disable_suspend": true,
+    "disable_screen_lock": true,
+    "clear_session_on_exit": true
+  },
+  "browser": {
+    "disable_developer_tools": true,
+    "disable_view_source": true,
+    "disable_new_windows": true,
+    "disable_extensions": true,
+    "disable_clipboard": true
+  }
+}

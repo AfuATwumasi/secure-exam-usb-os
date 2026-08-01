@@ -73,7 +73,7 @@ do
 
     if [ "$REQUIRE_EXAM_SERVER" = "true" ]; then
 
-        if ! getent hosts "$EXAM_SERVER" >/dev/null
+        if ! curl -fs --connect-timeout 5 "$EXAM_URL" >/dev/null 2>&1
         then
             log "Exam server unreachable."
 

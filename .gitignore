@@ -18,10 +18,21 @@ KNUST-Exam-OS/
 custom-root/
 iso/custom-root/
 OS/build/output/
-OS/build/work/
+OS/build/workspace/
 
 # Logs and temporary files
 *.log
 *.tmp
 *.swp
 *~
+
+# OS build artifacts
+OS/build/workspace/
+OS/build/output/
+OS/build/temp/
+OS/build/logs/
+
+*.iso
+*.img
+*.squashfs
+*.md5

@@ -6,6 +6,8 @@
 - Backend save/build endpoints write and read from the database.
 - Frontend dashboard can authenticate, generate a config, save it, and request a build.
 - OS `config-loader.sh` reads the backend-generated keys correctly.
+- OS master template and Cubic customizations are now in place under `OS/master-template/`.
+- Admin unlock, clipboard lockdown, and desktop restore scripts have been added on the OS side.
 
 ## Ownership Split
 - Backend: William
@@ -31,4 +33,4 @@
 - [OS/config/system.example.json](OS/config/system.example.json)
 
 ## Next Step
-Use the Moodle test URL once it is ready, then connect the ISO builder stub to the real build pipeline on the OS side.
+Connect `OS/build/build-iso.sh` to the new master template flow, then run a full ISO build and boot test once the Moodle URL is ready.

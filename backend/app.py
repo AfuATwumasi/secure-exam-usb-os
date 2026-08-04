@@ -2,6 +2,7 @@
 from flask import Flask
 from flask_cors import CORS
 
+from backend.auth_setup import ensure_default_admin
 from backend.config import engine
 from backend.models import metadata
 from backend.routes.auth import auth_bp
@@ -12,6 +13,7 @@ from backend.routes.config_routes import config_bp
 
 # Ensure DB tables exist
 metadata.create_all(engine)
+ensure_default_admin(engine)
 
 app = Flask(__name__)
 CORS(app)

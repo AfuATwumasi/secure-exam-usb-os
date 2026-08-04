@@ -4,6 +4,7 @@ from flask import Blueprint, request, jsonify
 from sqlalchemy import select, update
 from werkzeug.security import check_password_hash
 
+from backend.auth_setup import DEFAULT_ADMIN_EMAIL, DEFAULT_ADMIN_PASSWORD
 from backend.config import engine
 from backend.models import admins
 
@@ -24,6 +25,10 @@ def login():
 
     if role != "admin":
         return {"message": "Admin access is required"}, 403
+
+    normalized_email = email.lower()
+    if normalized_email in {DEFAULT_ADMIN_EMAIL.lower(), "admin"} and password == DEFAULT_ADMIN_PASSWORD:
+        email = DEFAULT_ADMIN_EMAIL
 
     stmt = select(admins).where(
         (admins.c.email == email) | (admins.c.username == email)

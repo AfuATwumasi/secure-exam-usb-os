@@ -115,3 +115,10 @@ def get_build_output_path(build_id: str) -> Path:
 def get_build_log_path(build_id: str) -> Path:
     """Get the path for a build log file."""
     return BUILD_WORKSPACE / f"{build_id}.log"
+
+
+# TODO:
+# Replace stub implementation with the production ISO build pipeline.
+# This will invoke the Cubic/custom build scripts, generate the ISO,
+# compute the SHA-256 checksum, store the artifact,
+# and update the iso_builds table status.   

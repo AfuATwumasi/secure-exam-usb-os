@@ -201,12 +201,12 @@ def request_iso_build(config_uuid: str):
 
     from backend.iso_builder import generate_build_id
 
-    build_uuid = generate_build_id()
+    build_id = generate_build_id()
 
     stmt = iso_builds.insert().values(
-        build_uuid=build_uuid,
-        config_id=row.config_id,
-        admin_id=admin_id,
+        build_id=build_id,
+        config_id=row.config_uuid,
+        requested_by=str(admin_id),
         status="Pending",
         created_at=datetime.utcnow(),
     )
@@ -216,15 +216,15 @@ def request_iso_build(config_uuid: str):
 
     return jsonify({
         "message": "ISO build requested",
-        "build_id": build_uuid,
+        "build_id": build_id,
         "admin_id": admin_id,
         "status": "Pending",
     }), 201
 
 
-@config_bp.route("/builds/<build_uuid>", methods=["GET"])
-def get_build_status(build_uuid: str):
-    stmt = select(iso_builds).where(iso_builds.c.build_uuid == build_uuid)
+@config_bp.route("/builds/<build_id>", methods=["GET"])
+def get_build_status(build_id: str):
+    stmt = select(iso_builds).where(iso_builds.c.build_id == build_id)
     with engine.connect() as conn:
         row = conn.execute(stmt).fetchone()
 
@@ -232,11 +232,11 @@ def get_build_status(build_uuid: str):
         return jsonify({"error": "Build not found"}), 404
 
     return jsonify({
-        "build_id": row.build_uuid,
+        "build_id": row.build_id,
         "config_id": row.config_id,
         "status": row.status,
-        "iso_name": row.iso_name,
-        "iso_size": row.iso_size,
+        "iso_name": row.iso_filename,
+        "iso_size": row.iso_size_bytes,
         "error_message": row.error_message,
         "created_at": row.created_at.isoformat() if row.created_at else None,
         "completed_at": row.completed_at.isoformat() if row.completed_at else None,
@@ -246,11 +246,11 @@ def get_build_status(build_uuid: str):
 @config_bp.route("/builds", methods=["GET"])
 def list_builds():
     stmt = select(
-        iso_builds.c.build_uuid,
+        iso_builds.c.build_id,
         iso_builds.c.config_id,
         iso_builds.c.status,
-        iso_builds.c.iso_name,
-        iso_builds.c.iso_size,
+        iso_builds.c.iso_filename,
+        iso_builds.c.iso_size_bytes,
         iso_builds.c.error_message,
         iso_builds.c.created_at,
         iso_builds.c.completed_at,
@@ -261,11 +261,11 @@ def list_builds():
 
     builds = [
         {
-            "build_id": r.build_uuid,
+            "build_id": r.build_id,
             "config_id": r.config_id,
             "status": r.status,
-            "iso_name": r.iso_name,
-            "iso_size": r.iso_size,
+            "iso_name": r.iso_filename,
+            "iso_size": r.iso_size_bytes,
             "error_message": r.error_message,
             "created_at": r.created_at.isoformat() if r.created_at else None,
             "completed_at": r.completed_at.isoformat() if r.completed_at else None,

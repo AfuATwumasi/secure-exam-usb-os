@@ -4,7 +4,6 @@ from datetime import datetime
 
 metadata = MetaData()
 
-# ----- Wendy's schema (matches database/secure_exams_iso_schema.sql) -----
 
 admins = Table(
     "admins", metadata,
@@ -57,16 +56,18 @@ exam_configurations = Table(
 )
 
 iso_builds = Table(
-    "iso_builds", metadata,
-    Column("build_id", Integer, primary_key=True),
-    Column("build_uuid", String, unique=True, nullable=False),
-    Column("config_id", Integer, ForeignKey("exam_configurations.config_id"), nullable=False),
-    Column("admin_id", Integer, ForeignKey("admins.admin_id"), nullable=False),
-    Column("iso_name", String, default=""),
+    "iso_builds",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("config_id", String, nullable=False),
+    Column("build_id", String, nullable=False),
     Column("status", String, default="Pending"),
-    Column("iso_size", String, default=""),
-    Column("error_message", Text, default=""),
+    Column("iso_filename", String, default=""),
+    Column("iso_size_bytes", Integer, default=0),
+    Column("sha256_hash", String, default=""),
     Column("build_log", Text, default=""),
+    Column("error_message", Text, default=""),
+    Column("requested_by", String),
     Column("created_at", DateTime, default=datetime.utcnow),
     Column("completed_at", DateTime, nullable=True),
 )

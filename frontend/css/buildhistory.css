@@ -382,26 +382,21 @@ td button {
 
 }
 
-.download-btn{
-
-    background:#16a34a;
-
-    color:white;
-
-    border:none;
-
-    padding:8px 14px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
+.download-btn {
+    display: inline-block;
+    padding: 8px 14px;
+    background: #198754;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
 }
 
-.download-btn:hover{
-
-    background:#15803d;
-
+.download-btn:hover {
+    background: #157347;
+    color: #fff;
 }
 
 .retry-btn{

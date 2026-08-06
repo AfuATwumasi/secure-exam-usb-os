@@ -20,10 +20,15 @@ so the rest of the backend can call it when ready.
 """
 
 import uuid
+import json
+import requests
+import subprocess
 from datetime import datetime
 from typing import Optional
 from pathlib import Path
-
+from sqlalchemy import update
+from backend.config import engine
+from backend.models import iso_builds
 
 # ---- Configuration ----
 
@@ -39,6 +44,11 @@ OUTPUT_ISO_DIR.mkdir(parents=True, exist_ok=True)
 BUILD_WORKSPACE = Path("storage/build-workspace")
 BUILD_WORKSPACE.mkdir(parents=True, exist_ok=True)
 
+# Path to the build configuration file used by build-iso.sh
+SYSTEM_JSON_PATH = Path("OS/build/config/system.json")
+
+# Path to the build script
+BUILD_SCRIPT = Path("OS/build/build-iso.sh")
 
 # ---- Build ID ----
 
@@ -62,7 +72,7 @@ def build_iso(
     build_id: str,
     master_iso_path: Optional[Path] = None,
     wallpaper_path: Optional[Path] = None,
-    logo_path: Optional[Path] = None,
+    logo_path: Optional[Path] = None,   
 ) -> dict:
     """
     Build a customized ISO from a master template.
@@ -99,12 +109,54 @@ def build_iso(
     # 8. Calculate SHA-256 checksum
     # 9. Move output ISO to OUTPUT_ISO_DIR
     # 10. Clean up workspace
+    with engine.begin() as conn:
+        conn.execute(
+            update(iso_builds)
+            .where(iso_builds.c.build_id == build_id)
+            .values(
+                status="Building"
+            )
+        )    
 
-    raise NotImplementedError(
-        "ISO Builder is not yet implemented. "
-        "Required tools: xorriso, squashfs-tools, genisoimage. "
-        "Required: master ISO file in storage/master-isos/"
+    # Ensure the config directory exists
+    SYSTEM_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    # Validate that config_json is valid JSON
+    config_data = json.loads(config_json)
+
+    # Write the configuration that build-iso.sh will use
+    with open(SYSTEM_JSON_PATH, "w", encoding="utf-8") as f:
+        json.dump(config_data, f, indent=2)
+
+    print(f"[ISO BUILDER] Wrote configuration to {SYSTEM_JSON_PATH}")
+
+    # Verify the file exists
+    if not SYSTEM_JSON_PATH.exists():
+        raise ISOBuildError("Failed to write system.json")
+
+    print("[ISO BUILDER] system.json successfully written.")
+
+    response = requests.post(
+        "http://192.168.56.101:5001/build",
+        timeout=1800  # Allow up to 30 minutes for ISO generation
     )
+
+    response.raise_for_status()
+
+    build_result = response.json()
+
+    if not build_result.get("success"):
+        raise ISOBuildError(
+            build_result.get("stderr", "Unknown build error")
+        )
+
+    print("[ISO BUILDER] Ubuntu build completed successfully.")
+
+    return {
+        "success": True,
+        "iso_path": build_result["iso_path"],
+    }
+
 
 
 def get_build_output_path(build_id: str) -> Path:

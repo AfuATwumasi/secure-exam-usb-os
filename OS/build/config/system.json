@@ -1,121 +1,116 @@
 {
-  "schema_version": "1.0",
-  "exam": {
-    "name": "KNUST Secure Examination",
-    "url": "http://192.168.0.149/",
+  "administrator": {
+    "allow_gui_login": true,
+    "allow_recovery": true,
+    "allow_tty_login": true,
+    "username": "admin"
+  },
+  "branding": {
+    "desktop_background_style": "zoomed",
     "institution": "Kwame Nkrumah University of Science and Technology",
-    "allowed_domains": [
-      "example.com"
-    ]
+    "product_name": "KNUST Secure Exam OS",
+    "short_name": "KNUST Exam OS",
+    "show_build_version": true,
+    "show_desktop_branding": true,
+    "wallpaper": "/usr/share/backgrounds/knust-exam/knust_wallpaper1.jpeg"
   },
   "browser": {
-    "kiosk_mode": true,
-    "restart_if_closed": true,
-    "startup_delay_seconds": 8,
-    "network_wait_seconds": 60,
+    "disable_browser_updates": true,
     "disable_downloads": true,
+    "disable_password_saving": true,
     "disable_printing": true,
     "disable_private_browsing": true,
-    "disable_password_saving": true,
-    "disable_browser_updates": true
+    "kiosk_mode": true,
+    "network_wait_seconds": 60,
+    "restart_if_closed": true,
+    "startup_delay_seconds": 8
   },
-  "system": {
-    "hostname": "knust-exam-os",
-    "live_username": "exam",
-    "autologin": true,
-    "build_version": "0.1.0"
+  "exam": {
+    "allowed_domains": [
+      "192.168.0.149"
+    ],
+    "institution": "Kwame Nkrumah University of Science and Technology",
+    "name": "Computer Architecture",
+    "url": "http://192.168.0.149/"
   },
   "network": {
-    "mode": "trusted-network",
-    "connection": {
-      "allow_wifi": true,
-      "allow_ethernet": true,
-      "allow_manual_configuration": false
-    },
-    "trusted_networks": [
-      {
-        "ssid": "KNUST_EXAM",
-        "connection_type": "wifi"
-      }
-    ],
-    "verification": {
-      "require_trusted_network": false,
-      "require_internet": false,
-      "require_exam_server": true,
-      "internet_test_host": "1.1.1.1",
-      "exam_server": "192.168.0.149",
-      "timeout_seconds": 20
-    },
-    "filtering": {
-      "enable_domain_filtering": true,
-      "block_other_traffic": false
-    },
     "allowed_domains": [
-      "example.com"
+      "192.168.0.149"
     ],
     "allowed_ports": [
       53,
       80,
       443
-    ]
+    ],
+    "connection": {
+      "allow_ethernet": true,
+      "allow_manual_configuration": false,
+      "allow_wifi": true
+    },
+    "filtering": {
+      "block_other_traffic": false,
+      "enable_domain_filtering": true
+    },
+    "mode": "trusted-network",
+    "trusted_networks": [],
+    "verification": {
+      "exam_server": "",
+      "internet_test_host": "1.1.1.1",
+      "require_exam_server": false,
+      "require_internet": true,
+      "require_trusted_network": false,
+      "timeout_seconds": 20
+    }
   },
+  "schema_version": "1.0",
   "security": {
-    "profile": "strict",
+    "browser": {
+      "disable_clipboard": false,
+      "disable_developer_tools": true,
+      "disable_extensions": true,
+      "disable_new_windows": true,
+      "disable_view_source": true
+    },
     "desktop": {
-      "disable_terminal": true,
+      "disable_desktop_icons": true,
       "disable_file_manager": true,
+      "disable_right_click": true,
       "disable_settings": true,
       "disable_task_manager": true,
-      "disable_desktop_icons": true,
-      "disable_right_click": true,
+      "disable_terminal": true,
       "hide_panel": true
+    },
+    "devices": {
+      "disable_bluetooth": true,
+      "disable_camera": false,
+      "disable_printing": true,
+      "disable_usb_storage": false
     },
     "keyboard": {
       "disable_alt_tab": true,
       "disable_ctrl_alt_t": true,
-      "disable_super_key": true,
       "disable_run_dialog": true,
-      "disable_workspace_switching": true,
-      "disable_virtual_terminals": true
+      "disable_super_key": true,
+      "disable_virtual_terminals": true,
+      "disable_workspace_switching": true
     },
-    "devices": {
-      "disable_usb_storage": false,
-      "disable_bluetooth": true,
-      "disable_camera": false,
-      "disable_printing": true
-    },
+    "profile": "strict",
     "session": {
+      "clear_session_on_exit": true,
       "disable_logout": true,
-      "disable_shutdown": true,
-      "disable_suspend": true,
       "disable_screen_lock": true,
-      "clear_session_on_exit": true
-    },
-    "browser": {
-      "disable_developer_tools": true,
-      "disable_view_source": true,
-      "disable_new_windows": true,
-      "disable_extensions": true,
-      "disable_clipboard": false
+      "disable_shutdown": true,
+      "disable_suspend": true
     }
   },
-  "branding": {
-    "product_name": "KNUST Secure Exam OS",
-    "short_name": "KNUST Exam OS",
-    "institution": "Kwame Nkrumah University of Science and Technology",
-    "wallpaper": "/usr/share/backgrounds/knust-exam/knust_wallpaper1.jpeg",
-    "desktop_background_style": "zoomed",
-    "show_desktop_branding": true,
-    "show_build_version": true
-  },
-  "administrator": {
-    "username": "admin",
-    "allow_tty_login": true,
-    "allow_gui_login": true,
-    "allow_recovery": true
-  },
   "student": {
-    "username": "exam",
-    "autologin": true
+    "autologin": true,
+    "username": "exam"
+  },
+  "system": {
+    "autologin": true,
+    "build_version": "1.0.0",
+    "hostname": "knust-exam-os",
+    "live_username": "exam"
   }
 }

@@ -4,10 +4,11 @@ API routes for exam configuration management and ISO build requests.
 
 import json
 from datetime import datetime
-
+from threading import Thread
 from flask import Blueprint, request, jsonify
-from sqlalchemy import select
-
+from flask import send_file
+from sqlalchemy import select, update
+from pathlib import Path
 from backend.config import engine
 from backend.models import admins, exam_configurations, iso_artifacts, iso_builds
 from backend.config_generator import (
@@ -108,7 +109,6 @@ def save_exam_config():
         config_json=config_json,
         created_at=datetime.utcnow(),
     )
-
     with engine.begin() as conn:
         conn.execute(stmt)
 
@@ -117,6 +117,7 @@ def save_exam_config():
         "config_id": config_uuid,
         "config_json": config_json,
     }), 201
+
 
 
 @config_bp.route("/<config_uuid>", methods=["GET"])
@@ -199,7 +200,7 @@ def request_iso_build(config_uuid: str):
     except (TypeError, ValueError):
         return jsonify({"error": "admin_id must be numeric"}), 400
 
-    from backend.iso_builder import generate_build_id
+    from backend.iso_builder import generate_build_id, build_iso
 
     build_id = generate_build_id()
 
@@ -214,7 +215,46 @@ def request_iso_build(config_uuid: str):
     with engine.begin() as conn:
         conn.execute(stmt)
 
+
+    def start_build():
+        try:
+            result = build_iso(
+                config_json=row.config_json,
+                config_id=row.config_uuid,
+                build_id=build_id,
+            )
+            with engine.begin() as conn:
+                conn.execute(
+                    update(iso_builds)
+                    .where(iso_builds.c.build_id == build_id)
+                    .values(
+                        status="Completed",
+                        iso_filename=Path(result["iso_path"]).name,
+                        completed_at=datetime.utcnow(),
+                    )
+                )
+
+            print("[ISO BUILDER] Build marked as Completed.")
+
+        except Exception as e:
+            with engine.begin() as conn:
+                conn.execute(
+                    update(iso_builds)
+                    .where(iso_builds.c.build_id == build_id)
+                    .values(
+                        status="Failed",
+                        error_message=str(e),
+                        completed_at=datetime.utcnow(),
+                    )
+                )
+            print(f"[ISO BUILDER] {e}")
+
+
+
+    Thread(target=start_build, daemon=True).start()
+
     return jsonify({
+
         "message": "ISO build requested",
         "build_id": build_id,
         "admin_id": admin_id,
@@ -259,8 +299,19 @@ def list_builds():
     with engine.connect() as conn:
         rows = conn.execute(stmt).fetchall()
 
-    builds = [
-        {
+    builds = []
+
+    for r in rows:
+
+        download_url = None
+
+        if r.status == "Completed":
+            download_url = (
+                f"{request.host_url.rstrip('/')}"
+                f"/api/config/builds/{r.build_id}/download"
+            )
+
+        builds.append({
             "build_id": r.build_id,
             "config_id": r.config_id,
             "status": r.status,
@@ -269,8 +320,50 @@ def list_builds():
             "error_message": r.error_message,
             "created_at": r.created_at.isoformat() if r.created_at else None,
             "completed_at": r.completed_at.isoformat() if r.completed_at else None,
-        }
-        for r in rows
-    ]
+            "download_url": download_url,
+        })
 
     return jsonify({"builds": builds}), 200
+
+@config_bp.route("/builds/<build_id>/download", methods=["GET"])
+def download_iso(build_id):
+
+    with engine.begin() as conn:
+        build = conn.execute(
+            select(iso_builds).where(
+                iso_builds.c.build_id == build_id
+            )
+        ).fetchone()
+
+    if build is None:
+        return jsonify({"error": "Build not found"}), 404
+
+    if build.status != "Completed":
+        return jsonify({"error": "Build not completed"}), 400
+
+    import requests
+    from flask import Response
+
+    response = requests.get(
+        "http://192.168.56.101:5001/download",
+        stream=True
+    )
+
+    if response.status_code != 200:
+        return jsonify({
+            "error": "Unable to retrieve ISO from Builder Service"
+        }), 500
+
+    return Response(
+        response.iter_content(chunk_size=8192),
+        content_type=response.headers.get(
+            "Content-Type",
+            "application/octet-stream"
+        ),
+        headers={
+            "Content-Disposition": response.headers.get(
+                "Content-Disposition",
+                'attachment; filename="KNUST-Exam-OS-Generated.iso"'
+            )
+        }
+    )

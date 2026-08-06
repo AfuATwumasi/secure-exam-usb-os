@@ -57,7 +57,19 @@ function renderTable(builds) {
             <td>${build.build_created_at || build.created_at || "-"}</td>
             <td>${build.build_status || build.status || "-"}</td>
             <td>${build.iso_size || build.file_size_bytes || "-"}</td>
-            <td>${build.download_url ? `<a href="${build.download_url}">Download</a>` : "-"}</td>
+            <td>
+                ${
+                    build.download_url
+                    ? `
+                    <a
+                        href="${build.download_url}"
+                        class="download-btn">
+                        ⬇ Download ISO
+                    </a>
+                    `
+                    : "-"
+                }
+            </td>
         </tr>
     `).join("");
 
